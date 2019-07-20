@@ -5,7 +5,11 @@
  */
 
 $string['pluginname'] = 'We PLAY block';
-$string['simplehtml'] = 'We PLAY';
-$string['weplay'] = 'We PLAY block title';
-$string['simplehtml:addinstance'] = 'Add a new we PLAY block';
-$string['simplehtml:myaddinstance'] = 'Add a new we PLAY block to the My Moodle page';
+$string['weplay'] = 'We PLAY';
+$string['blocktitle'] = 'Title';
+$string['blockdescription'] = 'Introduction';
+$string['blockdescriptiondefault'] = 'PLAY with US';
+
+//Capabilities starts here
+$string['weplay:addinstance'] = 'Add a new we PLAY block';
+$string['weplay:myaddinstance'] = 'Add a new we PLAY block to the My Moodle page';
