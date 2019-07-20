@@ -14,15 +14,39 @@ class block_weplay extends block_base
     // The PHP tag and the curly bracket for the class definition
     // will only be closed after there is another function added in the next section.
 
-    public function get_content() {
+    /**
+     * Build the HTML for the block
+     * @return stdClass
+     */
+    public function get_content()
+    {
         if ($this->content !== null) {
             return $this->content;
         }
 
-        $this->content         =  new stdClass;
-        $this->content->text   = 'The content of our we PLAY block!';
+        $this->content = new stdClass;
+        $this->content->text = 'The content of our we PLAY block!';
         $this->content->footer = 'Footer here...';
 
         return $this->content;
+    }
+
+    /**
+     * Set plugin title from settings after the init()
+     * because $this->config do not exists in init()
+     */
+    public function specialization()
+    {
+        if (isset($this->config) && !empty($this->config->title)) {
+            $this->title = $this->config->title;
+        }
+    }
+
+    /**
+     * Prevent for adding multiple visualization on same page
+     * @return bool
+     */
+    public function instance_allow_multiple() {
+        return false;
     }
 }
