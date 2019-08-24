@@ -39,7 +39,7 @@ class content
     }
 
     public function getFooter(){
-        return '<img class="mt-3" src="http://www.soniceliteallstars.com/uploads/2/4/9/6/24965304/s716730810348540971_p78_i1_w200.png">
+        return '<div class="block_wp-level"></div>
             <div class="progress mt-3">
   <div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
 </div>

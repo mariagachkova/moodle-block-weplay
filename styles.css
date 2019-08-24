@@ -1,0 +1,47 @@
+.block_wp-level {
+    background: url([[pix:block_weplay|1]]) no-repeat;
+    background-size: 200px 200px;
+    color: #fff;
+    font-size: 4em;
+    height: 200px;
+    width: 200px;
+    line-height: 110px;
+    margin: 10px 0;
+    text-align: center;
+
+    cursor: default;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/*.block_wp-level.level-1 {*/
+/*    background-image: url([[pix:block_weplay|1]]);*/
+/*}*/
+/*.block_wp-level.level-2 {*/
+/*    background-image: url([[pix:block_weplay|2]]);*/
+/*}*/
+/*.block_wp-level.level-3 {*/
+/*    background-image: url([[pix:block_weplay|3]]);*/
+/*}*/
+/*.block_wp-level.level-4 {*/
+/*    background-image: url([[pix:block_weplay|4]]);*/
+/*}*/
+/*.block_wp-level.level-5 {*/
+/*    background-image: url([[pix:block_weplay|5]]);*/
+/*}*/
+/*.block_wp-level.level-6 {*/
+/*    background-image: url([[pix:block_weplay|6]]);*/
+/*}*/
+/*.block_wp-level.level-7 {*/
+/*    background-image: url([[pix:block_weplay|7]]);*/
+/*}*/
+/*.block_wp-level.level-8 {*/
+/*    background-image: url([[pix:block_weplay|8]]);*/
+/*}*/
+/*.block_wp-level.level-9 {*/
+/*    background-image: url([[pix:block_weplay|9]]);*/
+/*}*/
