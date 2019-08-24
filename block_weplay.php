@@ -5,6 +5,9 @@
  * Hold the class definition for the block we play
  * and used to manage it as a plugin and to render it onscreen
  */
+
+use block_weplay\output\content;
+
 class block_weplay extends block_base
 {
     public function init()
@@ -24,9 +27,11 @@ class block_weplay extends block_base
             return $this->content;
         }
 
+        $content = new content();
+
         $this->content = new stdClass;
-        $this->content->text = 'The content of our we PLAY block!';
-        $this->content->footer = 'Footer here...';
+        $this->content->footer = $content->getFooter();
+        $this->content->text = $content->getText();
 
         return $this->content;
     }
@@ -46,7 +51,21 @@ class block_weplay extends block_base
      * Prevent for adding multiple visualization on same page
      * @return bool
      */
-    public function instance_allow_multiple() {
+    public function instance_allow_multiple()
+    {
         return false;
+    }
+
+    /**
+     * @return array
+     */
+    public function applicable_formats() {
+        return array(
+            'admin' => false,
+            'site-index' => false,
+            'course-view' => true,
+            'mod' => false,
+            'my' => false
+        );
     }
 }
