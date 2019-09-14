@@ -2,6 +2,8 @@
 
 namespace block_weplay\output;
 
+use moodle_url;
+
 class content
 {
     public function getText()
@@ -20,7 +22,7 @@ class content
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link text-center" href="#"><i class="fa fa-trophy" aria-hidden="true"></i> 
+        <a class="nav-link text-center" href="/blocks/weplay/leader_board.php"><i class="fa fa-trophy" aria-hidden="true"></i> 
         <small>Board</small></a>
       </li>
       
