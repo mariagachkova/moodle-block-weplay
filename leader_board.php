@@ -12,6 +12,7 @@
 
 
 require_once('../../config.php');
+global $DB, $OUTPUT, $PAGE, $CFG;
 
 $PAGE->set_context(get_system_context());
 $PAGE->set_pagelayout('standard');
