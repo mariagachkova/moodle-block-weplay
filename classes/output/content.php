@@ -2,6 +2,8 @@
 
 namespace block_weplay\output;
 
+use moodle_url;
+
 class content
 {
     public function getText()
@@ -14,13 +16,13 @@ class content
   <div class="collapse navbar-collapse" id="navbarNavDropdown">
     <ul class="navbar-nav">
     <li class="nav-item">
-        <a class="nav-link text-center" href="#">
+        <a class="nav-link text-center" href="/user/view.php?id=3&course=5">
           <i class="fa fa-user-circle-o" aria-hidden="true"></i>
           <small>User</small>
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link text-center" href="#"><i class="fa fa-trophy" aria-hidden="true"></i> 
+        <a class="nav-link text-center" href="/blocks/weplay/leader_board.php"><i class="fa fa-trophy" aria-hidden="true"></i> 
         <small>Board</small></a>
       </li>
       

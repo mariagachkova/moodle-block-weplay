@@ -1,10 +1,10 @@
 .block_wp-level {
-    background: url([[pix:block_weplay|1]]) no-repeat;
+    background: url([[pix:block_weplay|level_1]]) no-repeat;
     background-size: 200px 200px;
     color: #fff;
     font-size: 4em;
-    height: 200px;
-    width: 200px;
+    height: 150px;
+    width: 150px;
     line-height: 110px;
     margin: 10px 0;
     text-align: center;

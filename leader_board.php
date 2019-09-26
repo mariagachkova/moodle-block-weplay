@@ -12,18 +12,19 @@
 
 
 require_once('../../config.php');
+global $DB, $OUTPUT, $PAGE, $CFG;
 
 $PAGE->set_context(get_system_context());
 $PAGE->set_pagelayout('standard');
-$PAGE->set_title("About page");
-$PAGE->set_heading("About");
+$PAGE->set_title("Leader Board page");
+$PAGE->set_heading("Leader Board");
 $PAGE->set_url($CFG->wwwroot . '/blocks/weplay/leader_board.php');
 
 
 echo $OUTPUT->header();
 
 // Actual content goes here
-echo "Hello World";
+echo "This is the leaderboard";
 
 echo $OUTPUT->footer();
 
