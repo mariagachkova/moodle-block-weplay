@@ -7,7 +7,7 @@ global $DB, $PAGE, $OUTPUT, $USER;
 
 // Check for all required variables.
 $courseid = required_param('courseid', PARAM_INT);
-$blockid = required_param('blockid', PARAM_INT);
+//$blockid = required_param('blockid', PARAM_INT);
 
 // Next look for optional variables.
 $id = optional_param('id', 0, PARAM_INT);
@@ -45,6 +45,10 @@ if($avatarform->is_cancelled()) {
     // but for now we will just redirect back to the course main page.
 //    $courseurl = new moodle_url('/course/view.php', array('id' => $courseid));
 //    redirect($courseurl);
+
+    if (!$DB->insert_record('block_wp_avatar', $fromform)) {
+        print_error('inserterror', 'block_simplehtml');
+    }
 
     print_object($fromform);
 } else {
