@@ -1,5 +1,9 @@
 <?php
+namespace block_weplay\form;
+
 require_once("{$CFG->libdir}/formslib.php");
+
+use moodleform;
 
 class weplay_avatar_form extends moodleform {
 

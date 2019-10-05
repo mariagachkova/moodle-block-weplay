@@ -31,13 +31,8 @@ class block_weplay extends block_base
 
         $this->content = new stdClass;
 
+        $this->content->footer  =  $content->getFooter();
 
-        global $COURSE;
-        $url = new moodle_url('/blocks/weplay/view.php', array('blockid' => $this->instance->id, 'courseid' => $COURSE->id));
-        $this->content->footer  =  html_writer::link($url, get_string('addpage', 'block_weplay'));
-
-
-//        $this->content->footer = $content->getFooter();
         $this->content->text = $content->getText();
 
         return $this->content;

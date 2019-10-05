@@ -3,6 +3,7 @@
 namespace block_weplay\output;
 
 use moodle_url;
+use html_writer;
 
 class content
 {
@@ -41,10 +42,22 @@ class content
     }
 
     public function getFooter(){
+        global $COURSE;
+
+// The other code.
+
+        $urlEdit = new moodle_url('/blocks/weplay/view.php', array('courseid' => $COURSE->id));
+        $urlView = new moodle_url('/blocks/weplay/view.php', array('courseid' => $COURSE->id, 'viewpage' => true, 'id' => 4));
+//        $this->content->footer = html_writer::link($url, get_string('addpage', 'block_simplehtml'));
+
+
+
         return '<div class="block_wp-level"></div>
             <div class="progress mt-3">
   <div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
 </div>
-<div class="text-center"><p>You have achieved 25 points</p></div>';
+<div class="text-center"><p>You have achieved 25 points</p></div>
+<div>' . html_writer::link($urlEdit, get_string('editavatar', 'block_weplay')) . '</div>
+<div>' . html_writer::link($urlView, get_string('viewavatar', 'block_weplay')) . '</div>';
     }
 }
