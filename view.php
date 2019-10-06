@@ -25,8 +25,8 @@ if (!$course = $DB->get_record('course', array('id' => $courseid))) {
 
 require_login($course);
 
-$PAGE->set_url('/blocks/weplay/view.php', array('id' => $courseid));
-$PAGE->set_pagelayout('standard');
+$PAGE->set_url('/blocks/weplay/view.php', array('courseid' => $courseid));
+$PAGE->set_pagelayout('incourse');
 $PAGE->set_heading(get_string('avatar_form_title', 'block_weplay'));
 
 

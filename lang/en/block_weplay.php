@@ -45,3 +45,7 @@ $string['avatar_image_icon_help'] = 'Add a image to your avatar for current cour
 
 
 $string['avatarformtitleedit'] = 'Avatar Information Edit';
+
+$string['leaderboard_title'] = 'Leader board';
+$string['leaderboard_description'] = 'This is a final rating for current course';
+

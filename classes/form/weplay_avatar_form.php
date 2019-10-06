@@ -28,7 +28,7 @@ class weplay_avatar_form extends moodleform {
         $mform->addHelpButton('avatar_description', 'avatar_description_icon', 'block_weplay');
         $mform->setType('avatar_description', PARAM_RAW);
 
-        $mform->addElement('filepicker', 'avatar_image', get_string('avatar_image', 'block_weplay'), null, array('accepted_types' => '*'));
+        $mform->addElement('filepicker', 'avatar_image', get_string('avatar_image', 'block_weplay'), null, array('accepted_types' => ['jpg', 'png']));
         $mform->addHelpButton('avatar_image', 'avatar_image_icon', 'block_weplay');
 
         // hidden elements
