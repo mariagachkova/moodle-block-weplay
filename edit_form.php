@@ -8,7 +8,7 @@ class block_weplay_edit_form extends block_edit_form {
         $mform->addElement('header', 'config_header', get_string('blocksettings', 'block'));
 
         //Title change
-        $mform->addElement('text', 'config_title', get_string('blocktitle', 'block_weplay'));
+        $mform->addElement('text', 'config_title', get_string('block_title', 'block_weplay'));
         $mform->addHelpButton('config_title', 'config_title_icon', 'block_weplay');
         $mform->setDefault('config_title', get_string('weplay', 'block_weplay'));
         $mform->setType('config_title', PARAM_RAW);
