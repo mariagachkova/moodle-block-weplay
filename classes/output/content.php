@@ -10,6 +10,11 @@ class content
     /* @var Stores attributes for the menu items depending on rights */
     var $menuItems = [];
 
+    public function __construct()
+    {
+        $this->setMenuItems();
+    }
+
     public function getText()
     {
         $html = html_writer::start_tag('nav', ['class' => 'navbar navbar-expand-sm navbar-light bg-light mt-3']);
@@ -25,10 +30,9 @@ class content
 
         $html .= html_writer::start_tag('div', ['class' => 'collapse navbar-collapse', 'id' => 'navbarNavDropdown']);
         $html .= html_writer::start_tag('ul', ['class' => 'navbar-nav']);
-        $html .= self::getMenuItem('User', new moodle_url('/user/view.php', ['id' => 3, 'course' => 5]), 'fa fa-user-circle-o');
-        $html .= self::getMenuItem('Board', new moodle_url('/blocks/weplay/leader_board.php'), 'fa fa-trophy');
-        $html .= self::getMenuItem('History', new moodle_url('/user/view.php', ['id' => 3, 'course' => 5]), 'fa fa-history');
-        $html .= self::getMenuItem('Set', new moodle_url('/user/view.php', ['id' => 3, 'course' => 5]), 'fa fa-cog');
+        foreach ($this->menuItems as $item){
+            $html .= self::getMenuItem($item['title'], $item['url'], $item['faClass']);
+        }
         $html .= html_writer::end_tag('ul');
         $html .= html_writer::end_tag('div');
 
@@ -41,9 +45,6 @@ class content
     public function getFooter()
     {
         global $COURSE;
-
-// The other code.
-
         $urlEdit = new moodle_url('/blocks/weplay/view.php', array('courseid' => $COURSE->id));
         $urlView = new moodle_url('/blocks/weplay/view.php', array('courseid' => $COURSE->id, 'viewpage' => true, 'id' => 1));
 
@@ -69,4 +70,29 @@ class content
         return $html;
     }
 
+    protected function setMenuItems()
+    {
+        $this->menuItems = [
+            [
+                'title' => 'User',
+                'url' => new moodle_url('/user/view.php', ['id' => 3, 'course' => 5]),
+                'faClass' => 'fa fa-user-circle-o',
+            ],
+            [
+                'title' => 'Board',
+                'url' => new moodle_url('/blocks/weplay/leader_board.php'),
+                'faClass' => 'fa fa-trophy',
+            ],
+            [
+                'title' => 'History',
+                'url' => new moodle_url('/user/view.php', ['id' => 3, 'course' => 5]),
+                'faClass' => 'fa fa-history',
+            ],
+            [
+                'title' => 'Set',
+                'url' => new moodle_url('/user/view.php', ['id' => 3, 'course' => 5]),
+                'faClass' => 'fa fa-cog',
+            ],
+        ];
+    }
 }
