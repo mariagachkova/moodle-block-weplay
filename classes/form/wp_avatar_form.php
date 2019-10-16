@@ -1,15 +1,20 @@
 <?php
+
+
 namespace block_weplay\form;
 
-require_once("{$CFG->libdir}/formslib.php");
 
-use moodleform;
+class wp_avatar_form extends \core\form\persistent
+{
+    /** @var string Persistent class name. */
+    protected static $persistentclass = 'block_weplay\\models\\wp_avatar';
 
-class weplay_avatar_form extends moodleform {
+    /**
+     * Define the form.
+     */
+    public function definition() {
+        $mform = $this->_form;
 
-    function definition() {
-
-        $mform =& $this->_form;
         $mform->addElement('header','displayinfo', get_string('avatar_form_general', 'block_weplay'));
 
         //Title change
@@ -21,7 +26,7 @@ class weplay_avatar_form extends moodleform {
         $mform->addElement('text', 'avatar_name', get_string('avatar_name', 'block_weplay'));
         $mform->addHelpButton('avatar_name', 'avatar_name_icon', 'block_weplay');
         $mform->setType('avatar_name', PARAM_RAW);
-        
+
 
         //Description change
         $mform->addElement('textarea', 'avatar_description', get_string('avatar_description', 'block_weplay'));
@@ -37,4 +42,5 @@ class weplay_avatar_form extends moodleform {
 
         $this->add_action_buttons();
     }
+
 }

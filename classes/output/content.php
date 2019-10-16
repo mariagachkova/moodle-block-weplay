@@ -68,12 +68,13 @@ class content
 
         global $COURSE;
         $urlEdit = new moodle_url('/blocks/weplay/view.php', array('courseid' => $COURSE->id));
-        $urlView = new moodle_url('/blocks/weplay/view.php', array('courseid' => $COURSE->id, 'viewpage' => true, 'id' => 1));
+//        $urlView = new moodle_url('/blocks/weplay/view.php', array('courseid' => $COURSE->id, 'viewpage' => true, 'id' => 1));
+        $urlEditAvatar = new moodle_url('/blocks/weplay/avatar.php', array('courseid' => $COURSE->id));
 
         $this->menuItems = [
             [
                 'title' => 'Avatar',
-                'url' => $urlEdit,
+                'url' => $urlEditAvatar,
                 'faClass' => 'fa fa-user-circle-o',
             ],
             [
@@ -83,7 +84,7 @@ class content
             ],
             [
                 'title' => 'History',
-                'url' => $urlView,
+                'url' => $urlEditAvatar,
                 'faClass' => 'fa fa-history',
             ],
 //            [
