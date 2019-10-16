@@ -6,7 +6,7 @@
     height: 150px;
     width: 150px;
     line-height: 110px;
-    margin: 10px 20px;
+    margin: 10px auto;
     text-align: center;
 
     cursor: default;
@@ -45,3 +45,15 @@
 /*.block_wp-level.level-9 {*/
 /*    background-image: url([[pix:block_weplay|9]]);*/
 /*}*/
+
+.block_weplay nav.navbar {
+     box-shadow: none;
+}
+
+.block_weplay .progress-bar {
+    background-color: #4C9DE6;
+}
+
+.block_weplay p {
+    color: rgba(0,0,0,.5);
+}
