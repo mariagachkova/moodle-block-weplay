@@ -15,7 +15,7 @@ class content
         $this->setMenuItems();
     }
 
-    public function getText()
+    public function getFooter()
     {
         $html = html_writer::start_tag('nav', ['class' => 'navbar navbar-expand-sm navbar-light bg-light mt-3']);
         $html .= html_writer::tag('button', html_writer::tag('i', '', ['class' => 'fa fa-bars', 'aria-hidden' => 'true']), [
@@ -30,7 +30,7 @@ class content
 
         $html .= html_writer::start_tag('div', ['class' => 'collapse navbar-collapse', 'id' => 'navbarNavDropdown']);
         $html .= html_writer::start_tag('ul', ['class' => 'navbar-nav']);
-        foreach ($this->menuItems as $item){
+        foreach ($this->menuItems as $item) {
             $html .= self::getMenuItem($item['title'], $item['url'], $item['faClass']);
         }
         $html .= html_writer::end_tag('ul');
@@ -42,22 +42,15 @@ class content
         return $html;
     }
 
-    public function getFooter()
+    public function getText()
     {
-        global $COURSE;
-        $urlEdit = new moodle_url('/blocks/weplay/view.php', array('courseid' => $COURSE->id));
-        $urlView = new moodle_url('/blocks/weplay/view.php', array('courseid' => $COURSE->id, 'viewpage' => true, 'id' => 1));
+        $html = html_writer::tag('div', '', ['class' => 'block_wp-level']);
 
-        return '
-<div class="mx-auto">
-<div class="d-flex p-2 block_wp-level"></div>
-</div>
-            <div class="progress mt-3">
-  <div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-</div>
-<div class="text-center"><p>You have achieved 25 points</p></div>
-<div>' . html_writer::link($urlEdit, get_string('editavatar', 'block_weplay')) . '</div>
-<div>' . html_writer::link($urlView, get_string('viewavatar', 'block_weplay')) . '</div>';
+        $html .= html_writer::start_tag('div', ['class' => 'progress mt-3']);
+        $html .= html_writer::tag('div', '', ['class' => 'progress-bar', 'role' => 'progressbar', 'style' => 'width: 25%', 'aria-valuenow' => 25, 'aria-valuemin' => 0, 'aria-valuemax' => 100]);
+        $html .= html_writer::end_tag('div');
+        $html .= html_writer::tag('div', html_writer::tag('p', 'You have achieved 25 points'), ['class' => 'text-center']);
+        return $html;
     }
 
     private static function getMenuItem(string $menuTitle, moodle_url $menuUrl, string $menuFaIconClass)
@@ -72,10 +65,15 @@ class content
 
     protected function setMenuItems()
     {
+
+        global $COURSE;
+        $urlEdit = new moodle_url('/blocks/weplay/view.php', array('courseid' => $COURSE->id));
+        $urlView = new moodle_url('/blocks/weplay/view.php', array('courseid' => $COURSE->id, 'viewpage' => true, 'id' => 1));
+
         $this->menuItems = [
             [
-                'title' => 'User',
-                'url' => new moodle_url('/user/view.php', ['id' => 3, 'course' => 5]),
+                'title' => 'Avatar',
+                'url' => $urlEdit,
                 'faClass' => 'fa fa-user-circle-o',
             ],
             [
@@ -85,14 +83,14 @@ class content
             ],
             [
                 'title' => 'History',
-                'url' => new moodle_url('/user/view.php', ['id' => 3, 'course' => 5]),
+                'url' => $urlView,
                 'faClass' => 'fa fa-history',
             ],
-            [
-                'title' => 'Set',
-                'url' => new moodle_url('/user/view.php', ['id' => 3, 'course' => 5]),
-                'faClass' => 'fa fa-cog',
-            ],
+//            [
+//                'title' => 'Setting',
+//                'url' => new moodle_url('/user/view.php', ['id' => 3, 'course' => 5]),
+//                'faClass' => 'fa fa-cog',
+//            ],
         ];
     }
 }
