@@ -11,7 +11,7 @@ global $DB, $PAGE, $OUTPUT, $USER;
 // Check for all required variables.
 $courseid = required_param('courseid', PARAM_INT);
 // Next look for optional variables.
-$view = optional_param('view', false, PARAM_BOOL);
+$view = optional_param('view', true, PARAM_BOOL);
 
 if (!$course = $DB->get_record('course', ['id' => $courseid])) {
     print_error('invalidcourse', 'block_weplay', $courseid);
