@@ -22,9 +22,16 @@ $string['config_description_icon_help'] = 'Change the introduction of the block'
 $string['weplay:addinstance'] = 'Add a new we PLAY block';
 $string['weplay:myaddinstance'] = 'Add a new we PLAY block to the My Moodle page';
 
+//Common
+$string['last_updated'] = 'Last updated';
+
+
 //Avatar page
 $string['avatar_form_title'] = 'Avatar Information';
 $string['avatar_form_general'] = 'General';
+$string['avatar_information_applied'] = 'avatar information applied in';
+$string['avatar_edit'] = 'Edit Avatar';
+
 
 $string['avatar_title'] = 'Avatar Title';
 //$string['avatar_title_default'] = 'Mr. / Mrs. / Prof.';

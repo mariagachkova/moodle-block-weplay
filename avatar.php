@@ -5,6 +5,7 @@ require_once('lib.php');
 
 use block_weplay\models\wp_avatar;
 use block_weplay\form\wp_avatar_form;
+use block_weplay\output\wp_avatar_preview;
 
 global $DB, $PAGE, $OUTPUT, $USER;
 
@@ -27,7 +28,18 @@ $avatar = wp_avatar::get_record(['userid' => $USER->id, 'courseid' => $courseid]
 
 echo $OUTPUT->header();
 if ($view && $avatar) {
-    block_weplay_print_page($avatar->to_record());
+
+
+    $output = $PAGE->get_renderer('block_weplay');
+$avatarwidget = new wp_avatar_preview($avatar, [], $COURSE->fullname);
+//echo $output->header();
+echo $output->render($avatarwidget);
+//echo $output->footer();
+
+//    block_weplay_print_page($avatar->to_record());
+
+
+
 } else {
     if (!$avatar) {
         $data = (object)['userid' => $USER->id, 'courseid' => $courseid];
