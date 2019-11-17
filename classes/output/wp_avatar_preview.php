@@ -22,9 +22,20 @@ class wp_avatar_preview implements renderable
      */
     public $courseName;
 
-    public function __construct(wp_avatar $avatar, array $permissions = [], string $courseName = '') {
+    /**
+     * @var int $courseId
+     */
+    public $courseId;
+
+    /**
+     * @var int $userId
+     */
+    public $userId;
+
+    public function __construct(wp_avatar $avatar, int $courseId, int $userId, string $courseName = null) {
         $this->avatar = $avatar->to_record();
-        $this->permissions = $permissions;
+        $this->courseId = $courseId;
+        $this->userId = $userId;
         $this->courseName = $courseName;
     }
 }

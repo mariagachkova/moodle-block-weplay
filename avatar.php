@@ -29,7 +29,7 @@ $avatar = wp_avatar::get_record(['userid' => $USER->id, 'courseid' => $courseid]
 echo $OUTPUT->header();
 if ($view && $avatar) {
     $output = $PAGE->get_renderer('block_weplay');
-    $avatarwidget = new wp_avatar_preview($avatar, [], $course->fullname);
+    $avatarwidget = new wp_avatar_preview($avatar, $courseid, $USER->id, $course->fullname);
     echo $output->render($avatarwidget);
 } else {
     if (!$avatar) {
