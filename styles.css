@@ -57,3 +57,11 @@
 .block_weplay p {
     color: rgba(0,0,0,.5);
 }
+
+.avatar a, .leaderboard a{
+    color: #868e96;
+}
+
+.leaderboard table td{
+     vertical-align: central;
+}

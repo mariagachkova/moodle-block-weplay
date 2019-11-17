@@ -5,13 +5,14 @@ require_once('lib.php');
 
 use block_weplay\models\wp_avatar;
 use block_weplay\form\wp_avatar_form;
+use block_weplay\output\wp_avatar_preview;
 
 global $DB, $PAGE, $OUTPUT, $USER;
 
 // Check for all required variables.
 $courseid = required_param('courseid', PARAM_INT);
 // Next look for optional variables.
-$view = optional_param('view', false, PARAM_BOOL);
+$view = optional_param('view', true, PARAM_BOOL);
 
 if (!$course = $DB->get_record('course', ['id' => $courseid])) {
     print_error('invalidcourse', 'block_weplay', $courseid);
@@ -27,7 +28,9 @@ $avatar = wp_avatar::get_record(['userid' => $USER->id, 'courseid' => $courseid]
 
 echo $OUTPUT->header();
 if ($view && $avatar) {
-    block_weplay_print_page($avatar->to_record());
+    $output = $PAGE->get_renderer('block_weplay');
+    $avatarwidget = new wp_avatar_preview($avatar, $courseid, $USER->id, $course->fullname);
+    echo $output->render($avatarwidget);
 } else {
     if (!$avatar) {
         $data = (object)['userid' => $USER->id, 'courseid' => $courseid];
