@@ -28,18 +28,9 @@ $avatar = wp_avatar::get_record(['userid' => $USER->id, 'courseid' => $courseid]
 
 echo $OUTPUT->header();
 if ($view && $avatar) {
-
-
     $output = $PAGE->get_renderer('block_weplay');
-$avatarwidget = new wp_avatar_preview($avatar, [], $COURSE->fullname);
-//echo $output->header();
-echo $output->render($avatarwidget);
-//echo $output->footer();
-
-//    block_weplay_print_page($avatar->to_record());
-
-
-
+    $avatarwidget = new wp_avatar_preview($avatar, [], $course->fullname);
+    echo $output->render($avatarwidget);
 } else {
     if (!$avatar) {
         $data = (object)['userid' => $USER->id, 'courseid' => $courseid];
