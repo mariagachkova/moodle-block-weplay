@@ -4,28 +4,37 @@
  * Control the use of individual blocks
  */
 
-$capabilities = array(
+$capabilities = [
 
-    'block/weplay:myaddinstance' => array(
+    'block/weplay:myaddinstance' => [
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM,
-        'archetypes' => array(
+        'archetypes' => [
             'user' => CAP_ALLOW
-        ),
+        ],
 
         'clonepermissionsfrom' => 'moodle/my:manageblocks'
-    ),
+    ],
 
-    'block/weplay:addinstance' => array(
+    'block/weplay:addinstance' => [
         'riskbitmask' => RISK_SPAM | RISK_XSS,
 
         'captype' => 'write',
         'contextlevel' => CONTEXT_BLOCK,
-        'archetypes' => array(
+        'archetypes' => [
             'editingteacher' => CAP_ALLOW,
             'manager' => CAP_ALLOW
-        ),
+        ],
 
         'clonepermissionsfrom' => 'moodle/site:manageblocks'
+    ],
+
+    // Whether or not a user can earn plugin point.
+    'block/weplay:earnpoint' => array(
+        'captype' => 'read',
+        'contextlevel' => CONTEXT_MODULE,
+        'archetypes' => array(
+            'student' => CAP_ALLOW
+        ),
     ),
-);
+];
