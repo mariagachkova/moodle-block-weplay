@@ -28,4 +28,13 @@ $capabilities = array(
 
         'clonepermissionsfrom' => 'moodle/site:manageblocks'
     ),
+
+    // Whether or not a user can earn experience point.
+    'block/weplay:earnpoint' => array(
+        'captype' => 'read',
+        'contextlevel' => CONTEXT_BLOCK,
+        'archetypes' => array(
+            'student' => CAP_ALLOW
+        ),
+    ),
 );
