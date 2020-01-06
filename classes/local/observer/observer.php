@@ -15,11 +15,9 @@ class observer
      * @param \core\event\base $event The event.
      * @return void
      * @throws \dml_exception
-     * @throws \coding_exception
      */
     public static function catch_all(\core\event\base $event)
     {
-
         $userid = $event->userid;
 
         if ($event->edulevel !== \core\event\base::LEVEL_PARTICIPATING) {
@@ -58,7 +56,6 @@ class observer
         }
 
         static::log_event($event);
-
     }
 
     /**
@@ -84,7 +81,7 @@ class observer
         $points = static::calculate_points($event);
 
         global $DB;
-//        debugging(var_dump($event->get_data()), DEBUG_DEVELOPER);
+        debugging(var_dump($event->get_data()), DEBUG_DEVELOPER);
 
         $logRecord = new \stdClass();
         $logRecord->userid = $event->userid;
@@ -92,12 +89,12 @@ class observer
         $logRecord->eventname = $event->eventname;
         $logRecord->points = $points;
         $logRecord->time = $event->timecreated; /* $time->getTimestamp(); $time = new DateTime(); */
-//        try {
+        try {
             $DB->insert_record('block_wp_log', $logRecord);
-//        } catch (exception $e) {
-//            // Ignore, but please the linter.
-//            $pleaselinter = true;
-//        }
+        } catch (exception $e) {
+            // Ignore, but please the linter.
+            $pleaselinter = true;
+        }
 
 
     }
