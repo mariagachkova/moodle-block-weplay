@@ -5,7 +5,7 @@ namespace block_weplay\output;
 use moodle_url;
 use html_writer;
 
-class content
+class block_wp_block_base
 {
     /* @var Stores attributes for the menu items depending on rights */
     var $menuItems = [];

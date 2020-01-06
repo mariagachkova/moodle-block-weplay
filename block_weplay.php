@@ -6,7 +6,7 @@
  * and used to manage it as a plugin and to render it onscreen
  */
 
-use block_weplay\output\content;
+use block_weplay\output\block_wp_block_base;
 
 class block_weplay extends block_base
 {
@@ -27,7 +27,7 @@ class block_weplay extends block_base
             return $this->content;
         }
 
-        $content = new content();
+        $content = new block_wp_block_base();
 
         $this->content = new stdClass;
 
