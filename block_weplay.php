@@ -31,7 +31,7 @@ class block_weplay extends block_base
 
         $this->content = new stdClass;
 
-        $this->content->footer  =  $content->getFooter();
+        $this->content->footer = $content->getFooter();
 
         $this->content->text = $content->getText();
 
@@ -61,7 +61,8 @@ class block_weplay extends block_base
     /**
      * @return array
      */
-    public function applicable_formats() {
+    public function applicable_formats()
+    {
         return array(
             'admin' => false,
             'site-index' => false,
@@ -69,5 +70,14 @@ class block_weplay extends block_base
             'mod' => false,
             'my' => false
         );
+    }
+
+    /**
+     * Allow global configuration from settings.php
+     * @return bool
+     */
+    function has_config()
+    {
+        return true;
     }
 }
