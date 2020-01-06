@@ -18,6 +18,24 @@ $string['blockdescriptiondefault'] = 'PLAY with US';
 $string['config_description_icon'] = 'Help with introduction';
 $string['config_description_icon_help'] = 'Change the introduction of the block';
 
+$string['config_header_points'] = 'Configure points earning';
+
+$string['config_crud_c'] = 'Create points';
+$string['config_crud_c_icon'] = 'Help with points for create';
+$string['config_crud_c_icon_help'] = 'Points that will be earned when create a Moodle object in participating events';
+
+$string['config_crud_r'] = 'Read points';
+$string['config_crud_r_icon'] = 'Help with points for read';
+$string['config_crud_r_icon_help'] = 'Points that will be earned when read a Moodle object in participating events';
+
+$string['config_crud_u'] = 'Update points';
+$string['config_crud_u_icon'] = 'Help with points for update';
+$string['config_crud_u_icon_help'] = 'Points that will be earned when update a Moodle object in participating events';
+
+$string['config_crud_d'] = 'Delete points';
+$string['config_crud_d_icon'] = 'Help with points for delete';
+$string['config_crud_d_icon_help'] = 'Points that will be earned when delete a Moodle object in participating events';
+
 //Capabilities starts here
 $string['weplay:addinstance'] = 'Add a new we PLAY block';
 $string['weplay:myaddinstance'] = 'Add a new we PLAY block to the My Moodle page';
@@ -79,4 +97,12 @@ $string['leaderboard_menu_title'] = 'Board';
 $string['history_menu_title'] = 'History';
 $string['settings_menu_title'] = 'Settings';
 
+
+
+//global configuration strings
+$string['global_configuration_title'] = 'Global We Play configuration';
+$string['global_configuration_title_i'] = 'Global We Play configuration that will be applied on all instances of We play plugin';
+$string['global_configuration_label'] = 'Use crud';
+$string['global_configuration_input_name'] = 'use_crud';
+$string['global_configuration_description'] = 'Description for use crud';
 
