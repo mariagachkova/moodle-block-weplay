@@ -9,28 +9,18 @@ defined('MOODLE_INTERNAL') || die();
 
 class observer
 {
-
-    /**
-     * Default points for crud events
-     */
-    const DEFAULT_POINTS = [
-        'crud_c' => 15,
-        'crud_r' => 3,
-        'crud_u' => 1,
-        'crud_d' => 0,
-    ];
-
     /**
      * Observe all events.
      *
      * @param \core\event\base $event The event.
      * @return void
      * @throws \dml_exception
+     * @throws \coding_exception
      */
     public static function catch_all(\core\event\base $event)
     {
 
-        static::log_event($event);
+        points_recorder::log_event($event);
         $userid = $event->userid;
 
         if ($event->edulevel !== \core\event\base::LEVEL_PARTICIPATING) {
@@ -68,7 +58,7 @@ class observer
             return;
         }
 
-        static::log_event($event);
+        points_recorder::log_event($event);
     }
 
     /**
@@ -88,50 +78,4 @@ class observer
         $DB->delete_records('block_wp_avatar', $conditions);
         $DB->delete_records('block_wp_level', $conditions);
     }
-
-    private static function log_event(base $event)
-    {
-        global $DB;
-        $points = static::calculate_points($event, $DB);
-
-        if (is_int($points) && $points > 0) {
-            $logRecord = new \stdClass();
-            $logRecord->userid = $event->userid;
-            $logRecord->courseid = $event->courseid; #return 0 if global course selected
-            $logRecord->eventname = $event->eventname;
-            $logRecord->points = $points;
-            $logRecord->time = $event->timecreated; /* $time->getTimestamp(); $time = new DateTime(); */
-            try {
-                $DB->insert_record('block_wp_log', $logRecord);
-            } catch (exception $e) {
-                // Ignore, but please the linter.
-                $pleaselinter = true;
-            }
-        }
-
-    }
-
-    /**
-     * @param base $event
-     * @param $DB
-     * @return int
-     */
-    private static function calculate_points(base $event, $DB)
-    {
-        global $COURSE;
-        $coursecontext = \context_course::instance($COURSE->id);
-        $blockrecord = $DB->get_record('block_instances', array('blockname' => 'weplay', 'parentcontextid' => $coursecontext->id));
-        if ($blockrecord) {
-            $blockinstance = block_instance('weplay', $blockrecord);
-            $config_name = 'crud_' . $event->crud;
-
-            if (isset($blockinstance->config->$config_name) && is_int($blockinstance->config->$config_name)) {
-                return $blockinstance->config->$config_name;
-            } elseif (isset(static::DEFAULT_POINTS[$config_name]) && is_int(static::DEFAULT_POINTS[$config_name])) {
-                return static::DEFAULT_POINTS[$config_name];
-            }
-        }
-        return 0;
-    }
-
 }
