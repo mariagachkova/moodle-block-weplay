@@ -1,5 +1,4 @@
 .block_wp-level {
-    /*background: url([[pix:block_weplay|level_1]]) no-repeat;*/
     background-size: 150px 150px;
     color: #fff;
     font-size: 4em;
@@ -19,19 +18,19 @@
 }
 
 .block_wp-level.level-1 {
-    background: url([[pix:block_weplay|level_1]]) no-repeat;;
+    background: url([[pix:block_weplay|level_1]]) no-repeat;
 }
 .block_wp-level.level-2 {
-    background: url([[pix:block_weplay|level_2]]) no-repeat;;
+    background: url([[pix:block_weplay|level_2]]) no-repeat;
 }
 .block_wp-level.level-3 {
-    background: url([[pix:block_weplay|level_3]]) no-repeat;;
+    background: url([[pix:block_weplay|level_3]]) no-repeat;
 }
 .block_wp-level.level-4 {
-    background: url([[pix:block_weplay|level_4]]) no-repeat;;
+    background: url([[pix:block_weplay|level_4]]) no-repeat;
 }
 .block_wp-level.level-5 {
-    background: url([[pix:block_weplay|level_5]]) no-repeat;;
+    background: url([[pix:block_weplay|level_5]]) no-repeat;
 }
 
 .block_weplay nav.navbar {
