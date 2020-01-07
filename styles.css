@@ -1,5 +1,5 @@
 .block_wp-level {
-    background: url([[pix:block_weplay|level_1]]) no-repeat;
+    /*background: url([[pix:block_weplay|level_1]]) no-repeat;*/
     background-size: 150px 150px;
     color: #fff;
     font-size: 4em;
@@ -18,33 +18,21 @@
     user-select: none;
 }
 
-/*.block_wp-level.level-1 {*/
-/*    background-image: url([[pix:block_weplay|1]]);*/
-/*}*/
-/*.block_wp-level.level-2 {*/
-/*    background-image: url([[pix:block_weplay|2]]);*/
-/*}*/
-/*.block_wp-level.level-3 {*/
-/*    background-image: url([[pix:block_weplay|3]]);*/
-/*}*/
-/*.block_wp-level.level-4 {*/
-/*    background-image: url([[pix:block_weplay|4]]);*/
-/*}*/
-/*.block_wp-level.level-5 {*/
-/*    background-image: url([[pix:block_weplay|5]]);*/
-/*}*/
-/*.block_wp-level.level-6 {*/
-/*    background-image: url([[pix:block_weplay|6]]);*/
-/*}*/
-/*.block_wp-level.level-7 {*/
-/*    background-image: url([[pix:block_weplay|7]]);*/
-/*}*/
-/*.block_wp-level.level-8 {*/
-/*    background-image: url([[pix:block_weplay|8]]);*/
-/*}*/
-/*.block_wp-level.level-9 {*/
-/*    background-image: url([[pix:block_weplay|9]]);*/
-/*}*/
+.block_wp-level.level-1 {
+    background: url([[pix:block_weplay|level_1]]) no-repeat;;
+}
+.block_wp-level.level-2 {
+    background: url([[pix:block_weplay|level_2]]) no-repeat;;
+}
+.block_wp-level.level-3 {
+    background: url([[pix:block_weplay|level_3]]) no-repeat;;
+}
+.block_wp-level.level-4 {
+    background: url([[pix:block_weplay|level_4]]) no-repeat;;
+}
+.block_wp-level.level-5 {
+    background: url([[pix:block_weplay|level_5]]) no-repeat;;
+}
 
 .block_weplay nav.navbar {
      box-shadow: none;

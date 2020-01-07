@@ -7,12 +7,19 @@ use html_writer;
 
 class block_wp_block_base
 {
-    /* @var Stores attributes for the menu items depending on rights */
-    var $menuItems = [];
+    /* @var array $menuItems Stores attributes for the menu items depending on rights */
+    protected $menuItems = [];
+
+    /* @var int $level Stores current user level */
+    protected $level = 1;
+
+    /* @var int $points Stores current user points */
+    protected $points = 0;
 
     public function __construct()
     {
         $this->setMenuItems();
+        $this->setUserProperties();
     }
 
     public function getFooter()
@@ -44,12 +51,14 @@ class block_wp_block_base
 
     public function getText()
     {
-        $html = html_writer::tag('div', '', ['class' => 'block_wp-level']);
+
+
+        $html = html_writer::tag('div', '', ['class' => 'block_wp-level level-' . $this->level]);
 
         $html .= html_writer::start_tag('div', ['class' => 'progress mt-3']);
         $html .= html_writer::tag('div', '', ['class' => 'progress-bar', 'role' => 'progressbar', 'style' => 'width: 25%', 'aria-valuenow' => 25, 'aria-valuemin' => 0, 'aria-valuemax' => 100]);
         $html .= html_writer::end_tag('div');
-        $html .= html_writer::tag('div', html_writer::tag('p', 'You have achieved 25 points'), ['class' => 'text-center']);
+        $html .= html_writer::tag('div', html_writer::tag('p', 'You have achieved ' . $this->points . ' points'), ['class' => 'text-center']);
         return $html;
     }
 
@@ -93,5 +102,15 @@ class block_wp_block_base
 //                'faClass' => 'fa fa-cog',
 //            ],
         ];
+    }
+
+    private function setUserProperties()
+    {
+        global $DB, $COURSE, $USER;
+        $levelInfo = $DB->get_record('block_wp_level', ['userid' => $USER->id, 'courseid' => $COURSE->id]);
+        if($levelInfo){
+            $this->level = $levelInfo->level;
+            $this->points = $levelInfo->points;
+        }
     }
 }
