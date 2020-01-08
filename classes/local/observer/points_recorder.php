@@ -130,13 +130,18 @@ class points_recorder
      */
     private static function calculateProgress($levelRecord)
     {
+        //get total points that should be earned to get from current level to next one
         $totalPointsToEarn = static::DEFAULT_LEVEL_POINTS[($levelRecord->level + 1)] - static::DEFAULT_LEVEL_POINTS[$levelRecord->level];
+        //get only the points that are earned after the current level has been achieved
         $earnedPointsInCurrentLevel = $levelRecord->points - static::DEFAULT_LEVEL_POINTS[$levelRecord->level];
+        //check division by zero
         if ($earnedPointsInCurrentLevel !== 0) {
+            //proportion for points
             $proportion = $totalPointsToEarn / $earnedPointsInCurrentLevel;
         }else{
             $proportion = 100;
         }
+        //get percents
         $rawProgress = 100 / $proportion;
         $progress = round($rawProgress, 2);
         return is_float($progress) ? $progress : 0;
