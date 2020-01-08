@@ -16,6 +16,9 @@ class block_wp_block_base
     /* @var int $points Stores current user points */
     protected $points = 0;
 
+    /* @var int $points Stores current user progress bar percent */
+    protected $progress_bar_percent = 0;
+
     public function __construct()
     {
         $this->setMenuItems();
@@ -51,12 +54,10 @@ class block_wp_block_base
 
     public function getText()
     {
-
-
         $html = html_writer::tag('div', '', ['class' => 'block_wp-level level-' . $this->level]);
 
         $html .= html_writer::start_tag('div', ['class' => 'progress mt-3']);
-        $html .= html_writer::tag('div', '', ['class' => 'progress-bar', 'role' => 'progressbar', 'style' => 'width: 25%', 'aria-valuenow' => 25, 'aria-valuemin' => 0, 'aria-valuemax' => 100]);
+        $html .= html_writer::tag('div', '', ['class' => 'progress-bar', 'role' => 'progressbar', 'style' => 'width: ' . $this->progress_bar_percent . '%', 'aria-valuenow' => 25, 'aria-valuemin' => 0, 'aria-valuemax' => 100]);
         $html .= html_writer::end_tag('div');
         $html .= html_writer::tag('div', html_writer::tag('p', 'You have achieved ' . $this->points . ' points'), ['class' => 'text-center']);
         return $html;
@@ -111,6 +112,7 @@ class block_wp_block_base
         if($levelInfo){
             $this->level = $levelInfo->level;
             $this->points = $levelInfo->points;
+            $this->progress_bar_percent = $levelInfo->progress_bar_percent;
         }
     }
 }

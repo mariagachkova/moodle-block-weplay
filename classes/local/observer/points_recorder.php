@@ -98,7 +98,7 @@ class points_recorder
             $levelRecord->courseid = $event->courseid; #return 0 if global course selected
             $levelRecord->level = 1;
             $levelRecord->points = $points;
-
+            $levelRecord->progress_bar_percent = static::calculateProgress($levelRecord);
             try {
                 $DB->insert_record('block_wp_level', $levelRecord);
             } catch (exception $e) {
@@ -113,11 +113,37 @@ class points_recorder
                 $levelRecord->level = $next_level;
             }
 
+            $levelRecord->progress_bar_percent = static::calculateProgress($levelRecord);
+
             try {
                 $DB->update_record('block_wp_level', $levelRecord);
             } catch (exception $e) {
                 debugging($e->getMessage(), DEBUG_NORMAL);
             }
         }
+    }
+
+    /**
+     * Calculate percentage for progress bar
+     * @param $levelRecord
+     * @return float
+     */
+    private static function calculateProgress($levelRecord)
+    {
+        //get total points that should be earned to get from current level to next one
+        $totalPointsToEarn = static::DEFAULT_LEVEL_POINTS[($levelRecord->level + 1)] - static::DEFAULT_LEVEL_POINTS[$levelRecord->level];
+        //get only the points that are earned after the current level has been achieved
+        $earnedPointsInCurrentLevel = $levelRecord->points - static::DEFAULT_LEVEL_POINTS[$levelRecord->level];
+        //check division by zero
+        if ($earnedPointsInCurrentLevel !== 0) {
+            //proportion for points
+            $proportion = $totalPointsToEarn / $earnedPointsInCurrentLevel;
+        }else{
+            $proportion = 100;
+        }
+        //get percents
+        $rawProgress = 100 / $proportion;
+        $progress = round($rawProgress, 2);
+        return is_float($progress) ? $progress : 0;
     }
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="blocks/weplay/db" VERSION="20190707" COMMENT="XMLDB file for Moodle blocks/xp"
+<XMLDB PATH="blocks/weplay/db" VERSION="20200108" COMMENT="XMLDB file for Moodle blocks/xp"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
@@ -24,13 +24,14 @@
         <INDEX NAME="courseuser" UNIQUE="true" FIELDS="courseid, userid"/>
       </INDEXES>
     </TABLE>
-    <TABLE NAME="block_wp_level" COMMENT="Keep level info for users">
+    <TABLE NAME="block_wp_level" COMMENT="Keep level info for users and progress bar percent">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
         <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
         <FIELD NAME="level" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
         <FIELD NAME="points" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="progress_bar_percent" TYPE="number" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" DECIMALS="2"/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
