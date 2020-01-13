@@ -17,7 +17,7 @@ require_login($course);
 //$PAGE->set_context(context_system::instance());
 $PAGE->set_url('/blocks/weplay/leader_board.php', ['courseid' => $courseid]);
 $PAGE->set_pagelayout('incourse');
-$PAGE->set_heading("Leaderboard");
+$PAGE->set_heading(get_string('leaderboard_page_header', 'block_weplay'));
 $PAGE->set_title("Leader Board page");
 
 $outputL = $PAGE->get_renderer('block_weplay');

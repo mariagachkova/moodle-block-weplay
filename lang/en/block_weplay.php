@@ -97,8 +97,6 @@ $string['leaderboard_menu_title'] = 'Board';
 $string['history_menu_title'] = 'History';
 $string['settings_menu_title'] = 'Settings';
 
-
-
 //global configuration strings
 $string['global_configuration_title'] = 'Global We Play configuration';
 $string['global_configuration_title_i'] = 'Global We Play configuration that will be applied on all instances of We play plugin';
@@ -107,8 +105,15 @@ $string['global_configuration_input_name'] = 'use_crud';
 $string['global_configuration_description'] = 'Description for use crud';
 
 //Leaderboard page strings
+$string['leaderboard_page_header'] = 'Leaderboard';
 $string['leaderboard_participant'] = 'Participant';
 $string['leaderboard_level'] = 'Level';
 $string['leaderboard_progress'] = 'Progress';
 $string['leaderboard_unknown'] = 'Unknown participant';
+
+//History page strings
+$string['log_page_header'] = 'Rewarded activities';
+$string['log_time'] = 'Performed At';
+$string['log_name'] = 'Activity';
+$string['log_points'] = 'Earned points';
 
