@@ -2,6 +2,7 @@
 
 use block_weplay\local\observer\points_recorder;
 use block_weplay\output\wp_avatar_preview;
+use block_weplay\output\wp_history_preview;
 use block_weplay\output\wp_leaderboard_preview;
 
 /**
@@ -270,5 +271,16 @@ class block_weplay_renderer extends plugin_renderer_base
     private function leaderboard_level_info(int $level)
     {
         return html_writer::img('pix/thumb_level_' . $level . '.png', 'Image placeholder');
+    }
+
+    protected function render_wp_history_preview(wp_history_preview $history_preview)
+    {
+
+        $out = html_writer::start_div('history we-play block_weplay');
+        $out .= $this->navigation_tabs($history_preview->userId, $history_preview->courseId, 'history_menu_title');
+//        $out .= $this->leaderboard_table($history_preview->logs);
+        $out .= html_writer::end_div();
+
+        return $this->output->container($out);
     }
 }

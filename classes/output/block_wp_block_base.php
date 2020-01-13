@@ -77,9 +77,9 @@ class block_wp_block_base
     {
 
         global $COURSE;
-        $urlEdit = new moodle_url('/blocks/weplay/view.php', ['courseid' => $COURSE->id]);
-//        $urlView = new moodle_url('/blocks/weplay/view.php', array('courseid' => $COURSE->id, 'viewpage' => true, 'id' => 1));
         $urlEditAvatar = new moodle_url('/blocks/weplay/avatar.php', ['courseid' => $COURSE->id]);
+        $urlLeaderBoard = new moodle_url('/blocks/weplay/leader_board.php', ['courseid' => $COURSE->id]);
+        $urlHistory = new moodle_url('/blocks/weplay/history.php', ['courseid' => $COURSE->id]);
 
         $this->menuItems = [
             [
@@ -89,12 +89,12 @@ class block_wp_block_base
             ],
             [
                 'title' => 'Board',
-                'url' => new moodle_url('/blocks/weplay/leader_board.php', ['courseid' => $COURSE->id]),
+                'url' => $urlLeaderBoard,
                 'faClass' => 'fa fa-trophy',
             ],
             [
                 'title' => 'History',
-                'url' => $urlEditAvatar,
+                'url' => $urlHistory,
                 'faClass' => 'fa fa-history',
             ],
 //            [

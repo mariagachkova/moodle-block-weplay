@@ -45,7 +45,7 @@
     color: rgba(0,0,0,.5);
 }
 
-.avatar a, .leaderboard a{
+.avatar a, .leaderboard a, .history a{
     color: #868e96;
 }
 
