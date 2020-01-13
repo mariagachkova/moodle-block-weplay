@@ -17,7 +17,7 @@ require_login($course);
 //$PAGE->set_context(context_system::instance());
 $PAGE->set_url('/blocks/weplay/history.php', ['courseid' => $courseid]);
 $PAGE->set_pagelayout('incourse');
-$PAGE->set_heading("History");
+$PAGE->set_heading(get_string('log_page_header', 'block_weplay'));
 $PAGE->set_title("Logs timestamps");
 
 $outputL = $PAGE->get_renderer('block_weplay');
@@ -26,6 +26,6 @@ $logs = $DB->get_records('block_wp_log', ['courseid' => $courseid, 'userid' => $
 
 $logswidget = new wp_history_preview($courseid, $USER->id, $logs, $course->fullname);
 echo $OUTPUT->header();
-echo $OUTPUT->render($logswidget);
+echo $outputL->render($logswidget);
 echo $OUTPUT->footer();
 
