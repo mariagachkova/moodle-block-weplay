@@ -106,3 +106,8 @@ $string['global_configuration_label'] = 'Use crud';
 $string['global_configuration_input_name'] = 'use_crud';
 $string['global_configuration_description'] = 'Description for use crud';
 
+//Leaderboard page strings
+$string['leaderboard_participant'] = 'Participant';
+$string['leaderboard_level'] = 'Level';
+$string['leaderboard_progress'] = 'Progress';
+

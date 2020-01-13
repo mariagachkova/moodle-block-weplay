@@ -108,7 +108,7 @@ class points_recorder
             $levelRecord->points += $points;
             $next_level = $levelRecord->level + 1; //check next current level points
 
-            if (static::DEFAULT_LEVEL_POINTS[$next_level] < $levelRecord->points) {
+            if (isset(static::DEFAULT_LEVEL_POINTS[$next_level]) && static::DEFAULT_LEVEL_POINTS[$next_level] < $levelRecord->points) {
                 //@todo raise event for getting to the next level
                 $levelRecord->level = $next_level;
             }
@@ -130,16 +130,17 @@ class points_recorder
      */
     private static function calculateProgress($levelRecord)
     {
-        //get total points that should be earned to get from current level to next one
-        $totalPointsToEarn = static::DEFAULT_LEVEL_POINTS[($levelRecord->level + 1)] - static::DEFAULT_LEVEL_POINTS[$levelRecord->level];
-        //get only the points that are earned after the current level has been achieved
-        $earnedPointsInCurrentLevel = $levelRecord->points - static::DEFAULT_LEVEL_POINTS[$levelRecord->level];
-        //check division by zero
-        if ($earnedPointsInCurrentLevel !== 0) {
-            //proportion for points
-            $proportion = $totalPointsToEarn / $earnedPointsInCurrentLevel;
-        }else{
-            $proportion = 100;
+        $proportion = 100;
+        if (isset(static::DEFAULT_LEVEL_POINTS[($levelRecord->level + 1)])) {
+            //get total points that should be earned to get from current level to next one
+            $totalPointsToEarn = static::DEFAULT_LEVEL_POINTS[($levelRecord->level + 1)] - static::DEFAULT_LEVEL_POINTS[$levelRecord->level];
+            //get only the points that are earned after the current level has been achieved
+            $earnedPointsInCurrentLevel = $levelRecord->points - static::DEFAULT_LEVEL_POINTS[$levelRecord->level];
+            //check division by zero
+            if ($earnedPointsInCurrentLevel !== 0) {
+                //proportion for points
+                $proportion = $totalPointsToEarn / $earnedPointsInCurrentLevel;
+            }
         }
         //get percents
         $rawProgress = 100 / $proportion;

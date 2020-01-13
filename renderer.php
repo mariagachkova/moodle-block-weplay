@@ -1,6 +1,7 @@
 <?php
 
 use block_weplay\output\wp_avatar_preview;
+use block_weplay\output\wp_leaderboard_preview;
 
 /**
  * Class block_weplay_renderer Base renderer class for we play block plugin
@@ -30,7 +31,7 @@ class block_weplay_renderer extends plugin_renderer_base
             $icon = html_writer::tag('i', '', ['class' => $menu['icon_class'], 'aria-hidden' => true]);
             $small = html_writer::tag('small', get_string($string_key, 'block_weplay'));
 
-            $out .= html_writer::link($menu['url'], $icon  . ' ' . $small, ['class' => 'nav-link text-center' . ($active ==  $string_key ? ' active' : '')]);
+            $out .= html_writer::link($menu['url'], $icon . ' ' . $small, ['class' => 'nav-link text-center' . ($active == $string_key ? ' active' : '')]);
             $out .= html_writer::end_tag('li');
         }
         $out .= html_writer::end_tag('ul');
@@ -145,7 +146,7 @@ class block_weplay_renderer extends plugin_renderer_base
             ],
             'leaderboard_menu_title' => [
                 'icon_class' => 'fa fa-trophy',
-                'url' => new moodle_url('/blocks/weplay/leader_board.php'),
+                'url' => new moodle_url('/blocks/weplay/leader_board.php', ['courseid' => $courseId]),
             ],
             'history_menu_title' => [
                 'icon_class' => 'fa fa-history',
@@ -154,4 +155,80 @@ class block_weplay_renderer extends plugin_renderer_base
 //            'settings_menu_title' => 'fa fa-user-circle-o',
         ];
     }
+
+    protected function render_wp_leaderboard_preview(wp_leaderboard_preview $leaderboard_preview)
+    {
+
+        $out = html_writer::start_div('leaderboard we-play block_weplay');
+        $out .= $this->navigation_tabs($leaderboard_preview->userId, $leaderboard_preview->courseId, 'leaderboard_menu_title');
+
+        $out .= $this->leaderboard_table($leaderboard_preview->levelRecords);
+
+        $out .= html_writer::end_div();
+
+        return $this->output->container($out);
+    }
+
+    private function leaderboard_table(array $levelRecords)
+    {
+        $out = html_writer::start_div('row');
+        $out .= html_writer::start_div('col-lg-12 col-md-12 col-xs-12');
+        $out .= html_writer::start_div('table-responsive');
+
+        $out .= html_writer::start_tag('table', ['class' => 'table table-hover']);
+        $out .= $this->leaderboard_table_head();
+        $out .= $this->leaderboard_table_body($levelRecords);
+        $out .= html_writer::end_tag('table');
+
+        $out .= html_writer::end_div();
+        $out .= html_writer::end_div();
+        $out .= html_writer::end_div();
+        return $out;
+    }
+
+    private function leaderboard_table_head()
+    {
+        $out = html_writer::start_tag('thead');
+        $out .= html_writer::start_tag('tr');
+
+        $out .= html_writer::tag('th', '#', ['scope' => 'col']);
+        $out .= html_writer::tag('th', get_string('leaderboard_participant', 'block_weplay'), ['scope' => 'col']);
+        $out .= html_writer::tag('th', get_string('leaderboard_level', 'block_weplay'), ['scope' => 'col']);
+        $out .= html_writer::tag('th', get_string('leaderboard_progress', 'block_weplay'), ['scope' => 'col']);
+        $out .= html_writer::tag('th', '', ['scope' => 'col']);
+
+        $out .= html_writer::end_tag('th');
+
+        $out .= html_writer::end_tag('tr');
+        $out .= html_writer::end_tag('thead');
+        return $out;
+    }
+
+    private function leaderboard_table_body(array $levelRecords)
+    {
+        $out = html_writer::start_tag('tbody');
+        foreach ($levelRecords as $key => $levelRecord) {
+            $icon = html_writer::tag('i', '', ['class' => 'fa fa-question-circle pull-right', 'aria-hidden' => true]);
+            $out .= html_writer::start_tag('tr');
+            $out .= html_writer::tag('th', $key++, ['scope' => 'row']);
+            $out .= html_writer::tag('td', '<img alt="Image placeholder" class="userpicture" style="width: 50px; height: 50px"  src="http://localhost/pluginfile.php/5/user/icon/boost/f1?rev=367"> Mr. Cookie Monster');
+            $out .= html_writer::tag('td', '<img alt="Image placeholder" class="" src="pix/thumb_level_' . $levelRecord->level . '.png">');
+            $out .= html_writer::tag('td', $this->get_progress_bar($levelRecord->progress_bar_percent, $levelRecord->points));
+            $out .= html_writer::tag('td',  $icon);
+            $out .= html_writer::end_tag('tr');
+        }
+        $out .= html_writer::end_tag('tbody');
+        return $out;
+    }
+
+    private function get_progress_bar(float $progress_bar_percent, int $points)
+    {
+        $html = html_writer::start_tag('div', ['class' => 'progress mt-3']);
+        $html .= html_writer::tag('div', '', ['class' => 'progress-bar', 'role' => 'progressbar', 'style' => 'width: ' . $progress_bar_percent . '%', 'aria-valuemin' => 0, 'aria-valuemax' => 100]);
+        $html .= html_writer::end_tag('div');
+        $html .= html_writer::tag('div', html_writer::tag('p',  $points . ' points achieved'), ['class' => 'text-center']);
+        return $html;
+    }
+
+
 }
