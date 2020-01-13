@@ -5,12 +5,16 @@ We PLAY is block plugin for increasing the learners motivation during their educ
 
 Features
 ---------
-* We can now do that
-* And that
+* Possibility to add individual avatar information for every course
+* Automatically reward with wePlay points for students' activities
+* Block that displays current level and progress towards next level
+* A ladder to display the ranking of the students using their avatars
+* The amount of wePlay points earned per activity could be customized
+* wePlay points are earned per course
 
-Installation
--------------
-* For recent Moodle versions, you can install this plugin automatically from the Moodle plugins database.
+Requirements
+------
+Moodle 3.5 or greater.
 
 Manual Installation
 --------------------
