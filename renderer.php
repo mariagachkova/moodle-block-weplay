@@ -298,7 +298,7 @@ class block_weplay_renderer extends plugin_renderer_base
             $out .= html_writer::tag('th', $i++, ['scope' => 'row']);
             $out .= html_writer::tag('td', $time);
             $out .= html_writer::tag('td', $log->points);
-            $out .= html_writer::tag('td', $log->eventname);
+            $out .= html_writer::tag('td', wp_history_preview::event_readable_name($log->eventname));
             $out .= html_writer::end_tag('tr');
         }
         $out .= html_writer::end_tag('tbody');

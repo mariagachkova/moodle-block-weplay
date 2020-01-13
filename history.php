@@ -22,7 +22,7 @@ $PAGE->set_title("Logs timestamps");
 
 $outputL = $PAGE->get_renderer('block_weplay');
 
-$logs = $DB->get_records('block_wp_log', ['courseid' => $courseid, 'userid' => $USER->id], 'time DESC', '*', 10);
+$logs = $DB->get_records('block_wp_log', ['courseid' => $courseid, 'userid' => $USER->id], 'time DESC', '*', 0, 20);
 
 $logswidget = new wp_history_preview($courseid, $USER->id, $logs, $course->fullname);
 echo $OUTPUT->header();

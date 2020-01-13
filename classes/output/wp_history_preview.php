@@ -44,4 +44,13 @@ class wp_history_preview  implements renderable
             get_string('log_name', 'block_weplay'),
         ];
     }
+
+    public static function event_readable_name(string $class) {
+        // Override in subclass with real lang string.
+        $parts = explode('\\', $class);
+        if (count($parts) !== 4) {
+            return get_string('unknownevent', 'error');
+        }
+        return str_replace('_', ' ', $parts[3]);
+    }
 }
