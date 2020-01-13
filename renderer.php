@@ -2,6 +2,7 @@
 
 use block_weplay\local\observer\points_recorder;
 use block_weplay\output\wp_avatar_preview;
+use block_weplay\output\wp_history_preview;
 use block_weplay\output\wp_leaderboard_preview;
 
 /**
@@ -151,7 +152,7 @@ class block_weplay_renderer extends plugin_renderer_base
             ],
             'history_menu_title' => [
                 'icon_class' => 'fa fa-history',
-                'url' => new moodle_url('/blocks/weplay/avatar.php', ['courseid' => $courseId]),
+                'url' => new moodle_url('/blocks/weplay/history.php', ['courseid' => $courseId]),
             ],
 //            'settings_menu_title' => 'fa fa-user-circle-o',
         ];
@@ -162,21 +163,21 @@ class block_weplay_renderer extends plugin_renderer_base
 
         $out = html_writer::start_div('leaderboard we-play block_weplay');
         $out .= $this->navigation_tabs($leaderboard_preview->userId, $leaderboard_preview->courseId, 'leaderboard_menu_title');
-        $out .= $this->leaderboard_table($leaderboard_preview->levelRecords);
+        $out .= $this->responsive_table($leaderboard_preview->levelRecords, $leaderboard_preview->theadColumns, 'leaderboard_table_body');
         $out .= html_writer::end_div();
 
         return $this->output->container($out);
     }
 
-    private function leaderboard_table(array $levelRecords)
+    private function responsive_table(array $records, array $theadColumns, string $functionName)
     {
         $out = html_writer::start_div('row');
         $out .= html_writer::start_div('col-lg-12 col-md-12 col-xs-12');
         $out .= html_writer::start_div('table-responsive');
 
         $out .= html_writer::start_tag('table', ['class' => 'table table-hover']);
-        $out .= $this->leaderboard_table_head();
-        $out .= $this->leaderboard_table_body($levelRecords);
+        $out .= $this->table_head($theadColumns);
+        $out .= $this->$functionName($records);
         $out .= html_writer::end_tag('table');
 
         $out .= html_writer::end_div();
@@ -187,21 +188,17 @@ class block_weplay_renderer extends plugin_renderer_base
 
     /**
      * Get leaderboard table header
+     * @param array $theadColumns
      * @return string
-     * @throws coding_exception
      */
-    private function leaderboard_table_head()
+    private function table_head(array $theadColumns)
     {
         $out = html_writer::start_tag('thead');
         $out .= html_writer::start_tag('tr');
 
-        $out .= html_writer::tag('th', '#', ['scope' => 'col']);
-        $out .= html_writer::tag('th', get_string('leaderboard_participant', 'block_weplay'), ['scope' => 'col']);
-        $out .= html_writer::tag('th', get_string('leaderboard_level', 'block_weplay'), ['scope' => 'col']);
-        $out .= html_writer::tag('th', get_string('leaderboard_progress', 'block_weplay'), ['scope' => 'col']);
-        $out .= html_writer::tag('th', '', ['scope' => 'col']);
-
-        $out .= html_writer::end_tag('th');
+        foreach ($theadColumns as $theadColumn) {
+            $out .= html_writer::tag('th', $theadColumn, ['scope' => 'col']);
+        }
 
         $out .= html_writer::end_tag('tr');
         $out .= html_writer::end_tag('thead');
@@ -270,5 +267,41 @@ class block_weplay_renderer extends plugin_renderer_base
     private function leaderboard_level_info(int $level)
     {
         return html_writer::img('pix/thumb_level_' . $level . '.png', 'Image placeholder');
+    }
+
+    protected function render_wp_history_preview(wp_history_preview $history_preview)
+    {
+        $out = html_writer::start_div('history we-play block_weplay');
+        $out .= $this->navigation_tabs($history_preview->userId, $history_preview->courseId, 'history_menu_title');
+        $out .= $this->responsive_table($history_preview->logs, $history_preview->theadColumns, 'logs_table_body');
+        $out .= html_writer::end_div();
+
+        return $this->output->container($out);
+    }
+
+    /**
+     * Get history log table body
+     * @param array $logRecords
+     * @return string
+     * @throws coding_exception
+     */
+    private function logs_table_body(array $logRecords)
+    {
+        $out = html_writer::start_tag('tbody');
+        $i=1;
+        foreach ($logRecords as $log) {
+            $iconCal = html_writer::tag('i', '', ['class' => 'fa fa-calendar', 'aria-hidden' => true]);
+            $iconClock = html_writer::tag('i', '', ['class' => 'fa fa-clock-o', 'aria-hidden' => true]);
+            $time = $iconCal . ' ' . date('d.m', $log->time) . '   ' . $iconClock . ' ' . date('H:i:s', $log->time);
+
+            $out .= html_writer::start_tag('tr');
+            $out .= html_writer::tag('th', $i++, ['scope' => 'row']);
+            $out .= html_writer::tag('td', $time);
+            $out .= html_writer::tag('td', $log->points);
+            $out .= html_writer::tag('td', wp_history_preview::event_readable_name($log->eventname));
+            $out .= html_writer::end_tag('tr');
+        }
+        $out .= html_writer::end_tag('tbody');
+        return $out;
     }
 }
