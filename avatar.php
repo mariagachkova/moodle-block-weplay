@@ -1,7 +1,6 @@
 <?php
 
 require_once('../../config.php');
-require_once('lib.php');
 
 use block_weplay\models\wp_avatar;
 use block_weplay\form\wp_avatar_form;
