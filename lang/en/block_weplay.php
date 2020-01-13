@@ -110,4 +110,5 @@ $string['global_configuration_description'] = 'Description for use crud';
 $string['leaderboard_participant'] = 'Participant';
 $string['leaderboard_level'] = 'Level';
 $string['leaderboard_progress'] = 'Progress';
+$string['leaderboard_unknown'] = 'Unknown participant';
 

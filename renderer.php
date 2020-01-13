@@ -1,5 +1,6 @@
 <?php
 
+use block_weplay\local\observer\points_recorder;
 use block_weplay\output\wp_avatar_preview;
 use block_weplay\output\wp_leaderboard_preview;
 
@@ -161,9 +162,7 @@ class block_weplay_renderer extends plugin_renderer_base
 
         $out = html_writer::start_div('leaderboard we-play block_weplay');
         $out .= $this->navigation_tabs($leaderboard_preview->userId, $leaderboard_preview->courseId, 'leaderboard_menu_title');
-
         $out .= $this->leaderboard_table($leaderboard_preview->levelRecords);
-
         $out .= html_writer::end_div();
 
         return $this->output->container($out);
@@ -186,6 +185,11 @@ class block_weplay_renderer extends plugin_renderer_base
         return $out;
     }
 
+    /**
+     * Get leaderboard table header
+     * @return string
+     * @throws coding_exception
+     */
     private function leaderboard_table_head()
     {
         $out = html_writer::start_tag('thead');
@@ -204,31 +208,67 @@ class block_weplay_renderer extends plugin_renderer_base
         return $out;
     }
 
+    /**
+     * Get leaderboard table body
+     * @param array $levelRecords
+     * @return string
+     * @throws coding_exception
+     */
     private function leaderboard_table_body(array $levelRecords)
     {
         $out = html_writer::start_tag('tbody');
         foreach ($levelRecords as $key => $levelRecord) {
-            $icon = html_writer::tag('i', '', ['class' => 'fa fa-question-circle pull-right', 'aria-hidden' => true]);
+            $title = $levelRecord->points . (isset(points_recorder::DEFAULT_LEVEL_POINTS[($levelRecord->level + 1)]) ? ' are earned from ' . points_recorder::DEFAULT_LEVEL_POINTS[($levelRecord->level + 1)] . ' needed to achieve the next level' : '');
+            $icon = html_writer::tag('i', '', ['class' => 'fa fa-question-circle pull-right', 'aria-hidden' => true, 'title' => $title]);
+            $participant_name = trim($levelRecord->avatar_title . ' ' . $levelRecord->avatar_name);
+
             $out .= html_writer::start_tag('tr');
             $out .= html_writer::tag('th', $key++, ['scope' => 'row']);
-            $out .= html_writer::tag('td', '<img alt="Image placeholder" class="userpicture" style="width: 50px; height: 50px"  src="http://localhost/pluginfile.php/5/user/icon/boost/f1?rev=367"> Mr. Cookie Monster');
-            $out .= html_writer::tag('td', '<img alt="Image placeholder" class="" src="pix/thumb_level_' . $levelRecord->level . '.png">');
-            $out .= html_writer::tag('td', $this->get_progress_bar($levelRecord->progress_bar_percent, $levelRecord->points));
-            $out .= html_writer::tag('td',  $icon);
+            $out .= html_writer::tag('td', $this->leaderboard_avatar_info($participant_name));
+            $out .= html_writer::tag('td', $this->leaderboard_level_info($levelRecord->level));
+            $out .= html_writer::tag('td', $this->progress_bar($levelRecord->progress_bar_percent, $levelRecord->points));
+            $out .= html_writer::tag('td', $icon);
             $out .= html_writer::end_tag('tr');
         }
         $out .= html_writer::end_tag('tbody');
         return $out;
     }
 
-    private function get_progress_bar(float $progress_bar_percent, int $points)
+    /**
+     * Get progress bar html based on percent
+     * @param float $progress_bar_percent
+     * @param int $points
+     * @return string
+     */
+    private function progress_bar(float $progress_bar_percent, int $points)
     {
         $html = html_writer::start_tag('div', ['class' => 'progress mt-3']);
         $html .= html_writer::tag('div', '', ['class' => 'progress-bar', 'role' => 'progressbar', 'style' => 'width: ' . $progress_bar_percent . '%', 'aria-valuemin' => 0, 'aria-valuemax' => 100]);
         $html .= html_writer::end_tag('div');
-        $html .= html_writer::tag('div', html_writer::tag('p',  $points . ' points achieved'), ['class' => 'text-center']);
+        $html .= html_writer::tag('div', html_writer::tag('p', $points . ' points achieved'), ['class' => 'text-center']);
         return $html;
     }
 
+    /**
+     * Return avatar picture and names with title
+     * @param string $participant_name
+     * @return string
+     * @throws coding_exception
+     */
+    private function leaderboard_avatar_info(string $participant_name = '')
+    {
+        $html = html_writer::img('http://localhost/pluginfile.php/5/user/icon/boost/f1?rev=367', 'Image placeholder', ['class' => 'userpicture', 'style' => "width: 50px; height: 50px"]);
+        $html .= $participant_name ? $participant_name : get_string('leaderboard_unknown', 'block_weplay');
+        return $html;
+    }
 
+    /**
+     * Get image tag with thumb level
+     * @param int $level
+     * @return string
+     */
+    private function leaderboard_level_info(int $level)
+    {
+        return html_writer::img('pix/thumb_level_' . $level . '.png', 'Image placeholder');
+    }
 }
