@@ -26,8 +26,9 @@ Manual Installation
 
 Usage
 ------
-1. Do that 
-2. Do that
+1. Add block to your course 
+2. Set amount of points for every CRUD operation or use the predefined ones
+3. Start participating
 
 Documentation
 --------------
