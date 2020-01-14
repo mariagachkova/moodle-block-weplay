@@ -71,14 +71,14 @@ class block_weplay_renderer extends plugin_renderer_base
         $out .= html_writer::start_div('card');
         $out .= html_writer::start_div('card-body');
 
-        $out .= html_writer::tag('h5', get_string('login_activity_title', 'block_weplay'), ['class' => 'card-title']);
+        $out .= html_writer::tag('h5', get_string('loginactivity'), ['class' => 'card-title']);
         $out .= html_writer::start_tag('ul');
 
         $login_info_list = $this->login_info_list($userId);
         foreach ($login_info_list as $string_key => $value) {
             $out .= html_writer::start_tag('li', ['class' => 'contentnode']);
             $out .= html_writer::start_tag('dl');
-            $out .= html_writer::tag('dt', get_string($string_key, 'block_weplay'));
+            $out .= html_writer::tag('dt', get_string($string_key));
             $out .= html_writer::tag('dd', $value);
             $out .= html_writer::end_tag('dl');
             $out .= html_writer::end_tag('li');
@@ -130,12 +130,20 @@ class block_weplay_renderer extends plugin_renderer_base
 
     protected function login_info_list(int $userId)
     {
-        //@todo remove hard coded
-        return [
-            'first_access' => 'Wednesday, 18 July 2018, 10:30 AM&nbsp; (1 year 96 days)',
-            'last_access' => 'Tuesday, 22 October 2019, 7:19 PM&nbsp; (now)',
-            'last_ip' => '0:0:0:0:0:0:0:1',
-        ];
+        global $DB;
+        $user = $DB->get_record('user', ['id' => $userId]);
+
+        if ($user) {
+            $datestringfa = userdate($user->firstaccess) . "&nbsp; (" . format_time(time() - $user->firstaccess) . ")";
+            $datestringla = userdate($user->lastaccess) . "&nbsp; (" . format_time(time() - $user->lastaccess) . ")";
+
+            return [
+                'firstaccess' => $datestringfa,
+                'lastaccess' => $datestringla,
+                'lastip' => $user->lastip,
+            ];
+        }
+        return [];
     }
 
     protected function menu_list(int $userId, int $courseId)
@@ -288,7 +296,7 @@ class block_weplay_renderer extends plugin_renderer_base
     private function logs_table_body(array $logRecords)
     {
         $out = html_writer::start_tag('tbody');
-        $i=1;
+        $i = 1;
         foreach ($logRecords as $log) {
             $iconCal = html_writer::tag('i', '', ['class' => 'fa fa-calendar', 'aria-hidden' => true]);
             $iconClock = html_writer::tag('i', '', ['class' => 'fa fa-clock-o', 'aria-hidden' => true]);

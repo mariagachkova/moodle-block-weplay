@@ -51,7 +51,6 @@ $string['avatar_edit'] = 'Edit Avatar';
 
 
 $string['avatar_title'] = 'Avatar Title';
-//$string['avatar_title_default'] = 'Mr. / Mrs. / Prof.';
 $string['avatar_title_icon'] = 'Help with avatar title';
 $string['avatar_title_icon_help'] = 'Add a title to your avatar for current course. Ex. Mr. / Mrs. / Prof.';
 
@@ -78,13 +77,6 @@ $string['grade_overview'] = 'Grades Overview';
 //@todo check usage
 $string['outline_reports'] = 'Outline report';
 $string['complete_report'] = 'Complete report';
-
-//Avatar card login activity
-$string['login_activity_title'] = 'Login Activity';
-$string['first_access'] = 'First access to site';
-$string['last_access'] = 'Last access to site';
-$string['last_ip'] = 'Last IP address';
-
 
 $string['avatarformtitleedit'] = 'Avatar Information Edit';
 
