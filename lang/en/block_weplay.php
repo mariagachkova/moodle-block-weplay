@@ -109,3 +109,6 @@ $string['log_time'] = 'Performed At';
 $string['log_name'] = 'Activity';
 $string['log_points'] = 'Earned points';
 
+//scheduled task name
+$string['delete_older_logs'] = 'Delete old logs';
+

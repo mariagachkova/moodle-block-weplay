@@ -11,6 +11,19 @@ defined('MOODLE_INTERNAL') || die();
 class points_recorder
 {
     /**
+     * @var $db
+     */
+    protected $db;
+    /**
+     * @var base $event
+     */
+    protected $event;
+    /**
+     * @var array $plugin_config
+     */
+    protected $plugin_config;
+
+    /**
      * Default points for crud events
      */
     const DEFAULT_POINTS = [
@@ -31,29 +44,52 @@ class points_recorder
         5 => 247,
     ];
 
-    public static function log_event(base $event)
+    const DEFAULT_LOG_LIFETIME = 60;
+
+    public function __construct()
+    {
+        $this->setDB();
+        $this->setPluginConfig();
+    }
+
+    protected function setDB()
     {
         global $DB;
-        $points = static::calculate_points($event, $DB);
+        $this->db = $DB;
+    }
+
+    protected function setPluginConfig()
+    {
+        $this->plugin_config = get_config('block_weplay');
+    }
+
+    protected function setEvent(base $event)
+    {
+        $this->event = $event;
+    }
+
+    public function log_event(base $event)
+    {
+        $this->setEvent();
+        $points = $this->calculate_points();
 
         if (is_int($points) && $points > 0) {
-            static::record_log($event, $points, $DB);
-            static::record_level($event, $points, $DB);
+            $this->record_log($points);
+            $this->record_level($points);
         }
     }
 
     /**
      * @param base $event
-     * @param $DB
      * @return int
      */
-    private static function calculate_points(base $event, $DB)
+    private function calculate_points()
     {
-        $coursecontext = \context_course::instance($event->courseid);
-        $blockrecord = $DB->get_record('block_instances', ['blockname' => 'weplay', 'parentcontextid' => $coursecontext->id]);
+        $coursecontext = \context_course::instance($this->event->courseid);
+        $blockrecord = $this->db->get_record('block_instances', ['blockname' => 'weplay', 'parentcontextid' => $coursecontext->id]);
         if ($blockrecord) {
             $blockinstance = block_instance('weplay', $blockrecord);
-            $config_name = 'crud_' . $event->crud;
+            $config_name = 'crud_' . $this->event->crud;
 
             if (isset($blockinstance->config->$config_name) && is_int($blockinstance->config->$config_name)) {
                 return $blockinstance->config->$config_name;
@@ -65,42 +101,38 @@ class points_recorder
     }
 
     /**
-     * @param base $event
      * @param int $points
-     * @param $DB
      */
-    private static function record_log(base $event, int $points, $DB)
+    private function record_log(int $points)
     {
         $logRecord = new \stdClass();
-        $logRecord->userid = $event->userid;
-        $logRecord->courseid = $event->courseid; #return 0 if global course selected
-        $logRecord->eventname = $event->eventname;
+        $logRecord->userid = $this->event->userid;
+        $logRecord->courseid = $this->event->courseid; #return 0 if global course selected
+        $logRecord->eventname = $this->event->eventname;
         $logRecord->points = $points;
-        $logRecord->time = $event->timecreated; /* $time->getTimestamp(); $time = new DateTime(); */
+        $logRecord->time = $this->event->timecreated; /* $time->getTimestamp(); $time = new DateTime(); */
         try {
-            $DB->insert_record('block_wp_log', $logRecord);
+            $this->db->insert_record('block_wp_log', $logRecord);
         } catch (exception $e) {
             debugging($e->getMessage(), DEBUG_NORMAL);
         }
     }
 
     /**
-     * @param base $event
      * @param int $points
-     * @param $DB
      */
-    private static function record_level(base $event, int $points, $DB)
+    private function record_level(int $points)
     {
-        $levelRecord = $DB->get_record('block_wp_level', ['userid' => $event->userid, 'courseid' => $event->courseid]);
+        $levelRecord = $this->db->get_record('block_wp_level', ['userid' => $this->event->userid, 'courseid' => $this->event->courseid]);
         if (!$levelRecord) {
             $levelRecord = new \stdClass();
-            $levelRecord->userid = $event->userid;
-            $levelRecord->courseid = $event->courseid; #return 0 if global course selected
+            $levelRecord->userid = $this->event->userid;
+            $levelRecord->courseid = $this->event->courseid; #return 0 if global course selected
             $levelRecord->level = 1;
             $levelRecord->points = $points;
-            $levelRecord->progress_bar_percent = static::calculateProgress($levelRecord);
+            $levelRecord->progress_bar_percent = static::calculate_progress($levelRecord);
             try {
-                $DB->insert_record('block_wp_level', $levelRecord);
+                $this->db->insert_record('block_wp_level', $levelRecord);
             } catch (exception $e) {
                 debugging($e->getMessage(), DEBUG_NORMAL);
             }
@@ -113,10 +145,10 @@ class points_recorder
                 $levelRecord->level = $next_level;
             }
 
-            $levelRecord->progress_bar_percent = static::calculateProgress($levelRecord);
+            $levelRecord->progress_bar_percent = static::calculate_progress($levelRecord);
 
             try {
-                $DB->update_record('block_wp_level', $levelRecord);
+                $this->db->update_record('block_wp_level', $levelRecord);
             } catch (exception $e) {
                 debugging($e->getMessage(), DEBUG_NORMAL);
             }
@@ -128,7 +160,7 @@ class points_recorder
      * @param $levelRecord
      * @return float
      */
-    private static function calculateProgress($levelRecord)
+    private static function calculate_progress($levelRecord)
     {
         $proportion = 100;
         if (isset(static::DEFAULT_LEVEL_POINTS[($levelRecord->level + 1)])) {
@@ -146,5 +178,28 @@ class points_recorder
         $rawProgress = 100 / $proportion;
         $progress = round($rawProgress, 2);
         return is_float($progress) ? $progress : 0;
+    }
+
+    /**
+     *
+     * @throws \Exception
+     */
+    public function delete_older_logs()
+    {
+        if(isset($this->plugin_config->loglifetime) && $this->plugin_config->loglifetime){
+            $days = $this->plugin_config->loglifetime;
+        }else{
+            $days = static::DEFAULT_LOG_LIFETIME;
+        }
+        $date_time = new \DateTime();
+        $date_time->setTimestamp(time() - ($days * DAYSECS));
+
+        $this->db->delete_records_select(
+            'block_wp_log',
+            'time < :time',
+            [
+                'time' => $date_time->getTimestamp()
+            ]
+        );
     }
 }

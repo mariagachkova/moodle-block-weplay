@@ -19,8 +19,9 @@ class observer
      */
     public static function catch_all(\core\event\base $event)
     {
+        $points_recorder = new points_recorder();
 
-        points_recorder::log_event($event);
+        $points_recorder->log_event($event);
         $userid = $event->userid;
 
         if ($event->edulevel !== \core\event\base::LEVEL_PARTICIPATING) {
@@ -58,7 +59,7 @@ class observer
             return;
         }
 
-        points_recorder::log_event($event);
+        $points_recorder->log_event($event);
     }
 
     /**
