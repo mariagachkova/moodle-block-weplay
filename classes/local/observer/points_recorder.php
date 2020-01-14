@@ -70,7 +70,7 @@ class points_recorder
 
     public function log_event(base $event)
     {
-        $this->setEvent();
+        $this->setEvent($event);
         $points = $this->calculate_points();
 
         if (is_int($points) && $points > 0) {
