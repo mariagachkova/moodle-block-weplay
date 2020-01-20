@@ -18,7 +18,7 @@ $string['blockdescriptiondefault'] = 'PLAY with US';
 $string['config_description_icon'] = 'Help with introduction';
 $string['config_description_icon_help'] = 'Change the introduction of the block';
 
-$string['config_header_points'] = 'Configure points earning';
+$string['config_header_points'] = 'Points earning configuration';
 
 $string['config_crud_c'] = 'Create points';
 $string['config_crud_c_icon'] = 'Help with points for create';
@@ -74,9 +74,6 @@ $string['today_logs'] = 'Today\'s logs';
 $string['all_logs'] = 'All logs';
 $string['grade'] = 'Grade';
 $string['grade_overview'] = 'Grades Overview';
-//@todo check usage
-$string['outline_reports'] = 'Outline report';
-$string['complete_report'] = 'Complete report';
 
 $string['avatarformtitleedit'] = 'Avatar Information Edit';
 
@@ -92,9 +89,6 @@ $string['settings_menu_title'] = 'Settings';
 //global configuration strings
 $string['global_configuration_title'] = 'Global We Play configuration';
 $string['global_configuration_title_i'] = 'Global We Play configuration that will be applied on all instances of We play plugin';
-$string['global_configuration_label'] = 'Use crud';
-$string['global_configuration_input_name'] = 'use_crud';
-$string['global_configuration_description'] = 'Description for use crud';
 
 //Leaderboard page strings
 $string['leaderboard_page_header'] = 'Leaderboard';

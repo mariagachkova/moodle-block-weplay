@@ -21,7 +21,6 @@ class observer
     {
         $points_recorder = new points_recorder();
 
-        $points_recorder->log_event($event);
         $userid = $event->userid;
 
         if ($event->edulevel !== \core\event\base::LEVEL_PARTICIPATING) {
