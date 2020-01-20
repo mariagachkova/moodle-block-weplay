@@ -96,6 +96,7 @@ $string['leaderboard_participant'] = 'Participant';
 $string['leaderboard_level'] = 'Level';
 $string['leaderboard_progress'] = 'Progress';
 $string['leaderboard_unknown'] = 'Unknown participant';
+$string['leaderboard_current'] = ' (This is You)';
 
 //History page strings
 $string['log_page_header'] = 'Rewarded activities';

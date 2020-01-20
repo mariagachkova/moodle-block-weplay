@@ -92,12 +92,15 @@ class points_recorder
     }
 
     /**
-     * @param base $event
      * @return int
+     * @throws \Exception
      */
     private function calculate_points()
     {
-        if (strlen(str_replace(static::EXCLUDED_EVENTS, '', $this->event->eventname)) == strlen($this->event->eventname)) {
+        $excluded = strlen(str_replace(static::EXCLUDED_EVENTS, '', $this->event->eventname)) !== strlen($this->event->eventname);
+        $is_performed_soon = $this->getIsPerformedSoon();
+
+        if (!$excluded && !$is_performed_soon) {
             $blockrecord = $this->db->get_record('block_instances', ['blockname' => 'weplay', 'parentcontextid' => $this->event->courseid]);
             if ($blockrecord) {
                 $blockinstance = block_instance('weplay', $blockrecord);
@@ -214,5 +217,25 @@ class points_recorder
                 'time' => $date_time->getTimestamp()
             ]
         );
+    }
+
+    /**
+     * Check if the same event with crud R is performed last 10 minutes and ignore it
+     * @return bool
+     * @throws \Exception
+     */
+    private function getIsPerformedSoon()
+    {
+        $date_time = new \DateTime();
+        $date_time->setTimestamp(time() - (10 * MINSECS));
+        $performed_soon = $this->db->get_record_select('block_wp_log', 'eventname = :eventname AND userid = :userid AND courseid = :courseid AND time < :time',
+            [
+                'courseid' => $this->event->userid,
+                'userid' => $this->event->courseid,
+                'eventname' => $this->event->eventname,
+                'time' => $date_time->getTimestamp()
+            ]);
+
+       return $this->event->crud == 'r' && $performed_soon;
     }
 }

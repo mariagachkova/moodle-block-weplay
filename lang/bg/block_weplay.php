@@ -96,6 +96,7 @@ $string['leaderboard_participant'] = 'Участник';
 $string['leaderboard_level'] = 'Ниво';
 $string['leaderboard_progress'] = 'Прогрес';
 $string['leaderboard_unknown'] = 'Неидентифициран участник';
+$string['leaderboard_current'] = ' (Това си ти)';
 
 //History page strings
 $string['log_page_header'] = 'Наградени действия';

@@ -221,15 +221,17 @@ class block_weplay_renderer extends plugin_renderer_base
      */
     private function leaderboard_table_body(array $levelRecords)
     {
+        global $USER;
         $out = html_writer::start_tag('tbody');
         foreach ($levelRecords as $key => $levelRecord) {
             $title = $levelRecord->points . (isset(points_recorder::DEFAULT_LEVEL_POINTS[($levelRecord->level + 1)]) ? ' are earned from ' . points_recorder::DEFAULT_LEVEL_POINTS[($levelRecord->level + 1)] . ' needed to achieve the next level' : '');
             $icon = html_writer::tag('i', '', ['class' => 'fa fa-question-circle pull-right', 'aria-hidden' => true, 'title' => $title]);
             $participant_name = trim($levelRecord->avatar_title . ' ' . $levelRecord->avatar_name);
+            $is_current_user = $USER->id == $levelRecord->userid;
 
-            $out .= html_writer::start_tag('tr');
+            $out .= html_writer::start_tag('tr', ['class' => ($is_current_user ? 'table-dark' : '')]);
             $out .= html_writer::tag('th', $key++, ['scope' => 'row']);
-            $out .= html_writer::tag('td', $this->leaderboard_avatar_info($participant_name));
+            $out .= html_writer::tag('td', $this->leaderboard_avatar_info($participant_name, $is_current_user));
             $out .= html_writer::tag('td', $this->leaderboard_level_info($levelRecord->level));
             $out .= html_writer::tag('td', $this->progress_bar($levelRecord->progress_bar_percent, $levelRecord->points));
             $out .= html_writer::tag('td', $icon);
@@ -257,13 +259,16 @@ class block_weplay_renderer extends plugin_renderer_base
     /**
      * Return avatar picture and names with title
      * @param string $participant_name
+     * @param bool $is_current_user
      * @return string
      * @throws coding_exception
      */
-    private function leaderboard_avatar_info(string $participant_name = '')
+    private function leaderboard_avatar_info(string $participant_name, bool $is_current_user)
     {
+        $name = $participant_name ? $participant_name : get_string('leaderboard_unknown', 'block_weplay');
+        $current = $is_current_user ? get_string('leaderboard_current', 'block_weplay') : '';
         $html = html_writer::img('http://localhost/pluginfile.php/5/user/icon/boost/f1?rev=367', 'Image placeholder', ['class' => 'userpicture', 'style' => "width: 50px; height: 50px"]);
-        $html .= $participant_name ? $participant_name : get_string('leaderboard_unknown', 'block_weplay');
+        $html .= $name . $current;
         return $html;
     }
 
