@@ -37,8 +37,10 @@ $string['config_crud_d_icon'] = 'Помощ с точките за изтрив�
 $string['config_crud_d_icon_help'] = 'Точки, които ще бъдат получени когато бъде изтрит Мудъл обект събития за обучение';
 
 //Capabilities starts here
-$string['weplay:addinstance'] = 'Добави нова we PLAY block инстанция';
-$string['weplay:myaddinstance'] = 'Добави нова we PLAY block в моята страница';
+$string['weplay:addinstance'] = 'Може да добавя нова we PLAY block инстанция';
+$string['weplay:myaddinstance'] = 'Може да добавя нов we PLAY block в моята страница';
+$string['weplay:view'] = 'Може да вижда PLAY block';
+$string['weplay:earnpoint'] = 'Може да получава точки за участие';
 
 //Common
 $string['last_updated'] = 'Последно обновен {$a}';

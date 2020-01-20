@@ -39,6 +39,8 @@ $string['config_crud_d_icon_help'] = 'Points that will be earned when delete a M
 //Capabilities starts here
 $string['weplay:addinstance'] = 'Add a new we PLAY block';
 $string['weplay:myaddinstance'] = 'Add a new we PLAY block to the My Moodle page';
+$string['weplay:view'] = 'View we PLAY block';
+$string['weplay:earnpoint'] = 'Earn points for participating';
 
 //Common
 $string['last_updated'] = 'Last updated {$a}';
