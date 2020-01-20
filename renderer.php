@@ -99,7 +99,7 @@ class block_weplay_renderer extends plugin_renderer_base
         $out = html_writer::start_div('col-lg-4 col-md-6 col-xs-12');
         $out .= html_writer::start_div('card');
         $out .= html_writer::start_div('card-body text-center');
-        $out .= html_writer::tag('a', html_writer::img('http://localhost/pluginfile.php/5/user/icon/boost/f1?rev=367', 'Image placeholder', ['class' => 'userpicture']), ['href' => '#', 'class' => 'avatar avatar-lg rounded-circle']);
+        $out .= html_writer::tag('a', html_writer::img($avatar_preview->imageUrl, 'Image placeholder', ['class' => 'userpicture']), ['href' => '#', 'class' => 'avatar avatar-lg rounded-circle']);
         $out .= html_writer::tag('span', '', ['class' => 'avatar-child avatar-badge bg-success']);
 
         $out .= html_writer::tag('h5', clean_text($avatar_preview->avatar->avatar_title . ' ' . $avatar_preview->avatar->avatar_name), ['class' => 'h3 mt-4 mb-0']);

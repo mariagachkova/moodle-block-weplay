@@ -33,7 +33,14 @@ class wp_avatar_form extends \core\form\persistent
         $mform->addHelpButton('avatar_description', 'avatar_description_icon', 'block_weplay');
         $mform->setType('avatar_description', PARAM_RAW);
 
-        $mform->addElement('filepicker', 'avatar_image', get_string('avatar_image', 'block_weplay'), null, array('accepted_types' => ['jpg', 'png']));
+$options = ['subdirs' => 0, 'areamaxbytes' => 10485760, 'maxfiles' => 1,
+    'accepted_types' => ['jpg', 'png', 'jpe', 'jpeg', 'gif', 'svg', 'svgz']];
+        $draftitemid = file_get_submitted_draft_itemid('avatar_image');
+        file_prepare_draft_area($draftitemid, CONTEXT_BLOCK, 'user', 'avatar_image', 0, $options);
+
+        $mform->addElement('filemanager', 'avatar_image', get_string('avatar_image', 'block_weplay'), null,$options);
+
+//        $mform->addElement('filepicker', 'avatar_image', get_string('avatar_image', 'block_weplay'), null, array('accepted_types' => ['jpg', 'png']));
         $mform->addHelpButton('avatar_image', 'avatar_image_icon', 'block_weplay');
 
         // hidden elements
