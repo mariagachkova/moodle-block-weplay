@@ -231,7 +231,7 @@ class block_weplay_renderer extends plugin_renderer_base
 
             $out .= html_writer::start_tag('tr', ['class' => ($is_current_user ? 'table-dark' : '')]);
             $out .= html_writer::tag('th', $key++, ['scope' => 'row']);
-            $out .= html_writer::tag('td', $this->leaderboard_avatar_info($participant_name, $is_current_user));
+            $out .= html_writer::tag('td', $this->leaderboard_avatar_info($participant_name, $levelRecord->avatar_description, $is_current_user));
             $out .= html_writer::tag('td', $this->leaderboard_level_info($levelRecord->level));
             $out .= html_writer::tag('td', $this->progress_bar($levelRecord->progress_bar_percent, $levelRecord->points));
             $out .= html_writer::tag('td', $icon);
@@ -259,13 +259,18 @@ class block_weplay_renderer extends plugin_renderer_base
     /**
      * Return avatar picture and names with title
      * @param string $participant_name
+     * @param string $avatar_description
      * @param bool $is_current_user
      * @return string
      * @throws coding_exception
      */
-    private function leaderboard_avatar_info(string $participant_name, bool $is_current_user)
+    private function leaderboard_avatar_info(string $participant_name, $avatar_description, bool $is_current_user)
     {
-        $name = $participant_name ? $participant_name : get_string('leaderboard_unknown', 'block_weplay');
+        $icon = '';
+        if ($avatar_description) {
+            $icon = html_writer::tag('i', '', ['class' => 'fa fa-info-circle', 'aria-hidden' => true, 'title' => $avatar_description]);
+        }
+        $name = $participant_name ? $participant_name . ' ' . $icon : get_string('leaderboard_unknown', 'block_weplay');
         $current = $is_current_user ? get_string('leaderboard_current', 'block_weplay') : '';
         $html = html_writer::img('http://localhost/pluginfile.php/5/user/icon/boost/f1?rev=367', 'Image placeholder', ['class' => 'userpicture', 'style' => "width: 50px; height: 50px"]);
         $html .= $name . $current;
