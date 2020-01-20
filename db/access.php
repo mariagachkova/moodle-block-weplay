@@ -37,4 +37,11 @@ $capabilities = [
             'student' => CAP_ALLOW
         ),
     ),
+    'block/weplay:view' => [
+        'captype' => 'read',
+        'contextlevel' => CONTEXT_COURSE,
+        'archetypes' => [
+            'user' => CAP_ALLOW
+        ],
+    ],
 ];

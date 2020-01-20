@@ -43,8 +43,20 @@ class points_recorder
         4 => 159,
         5 => 247,
     ];
-
+    /**
+     * Default time in days that system will store the logs
+     */
     const DEFAULT_LOG_LIFETIME = 60;
+    /**
+     * Event names that should be excluded from earning points
+     */
+    const EXCLUDED_EVENTS = [
+        '\mod_forum\event\subscription_created',
+        '\mod_forum\event\discussion_subscription_created',
+        '\mod_book\event\course_module_viewed',
+        'assessable_submitted',
+        'assessable_uploaded',
+    ];
 
     public function __construct()
     {
@@ -85,16 +97,17 @@ class points_recorder
      */
     private function calculate_points()
     {
-        $coursecontext = \context_course::instance($this->event->courseid);
-        $blockrecord = $this->db->get_record('block_instances', ['blockname' => 'weplay', 'parentcontextid' => $coursecontext->id]);
-        if ($blockrecord) {
-            $blockinstance = block_instance('weplay', $blockrecord);
-            $config_name = 'crud_' . $this->event->crud;
+        if (strlen(str_replace(static::EXCLUDED_EVENTS, '', $this->event->eventname)) == strlen($this->event->eventname)) {
+            $blockrecord = $this->db->get_record('block_instances', ['blockname' => 'weplay', 'parentcontextid' => $this->event->courseid]);
+            if ($blockrecord) {
+                $blockinstance = block_instance('weplay', $blockrecord);
+                $config_name = 'crud_' . $this->event->crud;
 
-            if (isset($blockinstance->config->$config_name) && is_int($blockinstance->config->$config_name)) {
-                return $blockinstance->config->$config_name;
-            } elseif (isset(static::DEFAULT_POINTS[$config_name]) && is_int(static::DEFAULT_POINTS[$config_name])) {
-                return static::DEFAULT_POINTS[$config_name];
+                if (isset($blockinstance->config->$config_name) && is_int($blockinstance->config->$config_name)) {
+                    return $blockinstance->config->$config_name;
+                } elseif (isset(static::DEFAULT_POINTS[$config_name]) && is_int(static::DEFAULT_POINTS[$config_name])) {
+                    return static::DEFAULT_POINTS[$config_name];
+                }
             }
         }
         return 0;
@@ -186,9 +199,9 @@ class points_recorder
      */
     public function delete_older_logs()
     {
-        if(isset($this->plugin_config->loglifetime) && $this->plugin_config->loglifetime){
+        if (isset($this->plugin_config->loglifetime) && $this->plugin_config->loglifetime) {
             $days = $this->plugin_config->loglifetime;
-        }else{
+        } else {
             $days = static::DEFAULT_LOG_LIFETIME;
         }
         $date_time = new \DateTime();
