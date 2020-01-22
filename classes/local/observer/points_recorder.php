@@ -238,10 +238,10 @@ class points_recorder
     {
         $date_time = new \DateTime();
         $date_time->setTimestamp(time() - (3 * MINSECS));
-        $performed_soon = $this->db->get_record_select('block_wp_log', 'eventname = :eventname AND userid = :userid AND courseid = :courseid AND time < :time',
+        $performed_soon = $this->db->get_record_select('block_wp_log', 'eventname = :eventname AND userid = :userid AND courseid = :courseid AND time > :time',
             [
-                'courseid' => $this->event->userid,
-                'userid' => $this->event->courseid,
+                'courseid' => $this->event->courseid,
+                'userid' => $this->event->userid,
                 'eventname' => $this->event->eventname,
                 'time' => $date_time->getTimestamp()
             ]);
