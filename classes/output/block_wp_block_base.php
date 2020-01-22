@@ -41,7 +41,7 @@ class block_wp_block_base
         $html .= html_writer::start_tag('div', ['class' => 'collapse navbar-collapse', 'id' => 'navbarNavDropdown']);
         $html .= html_writer::start_tag('ul', ['class' => 'navbar-nav']);
         foreach ($this->menuItems as $item) {
-            $html .= self::getMenuItem($item['title'], $item['url'], $item['faClass']);
+            $html .= self::getMenuItem($item['string_key'], $item['url'], $item['faClass'], $item['class']);
         }
         $html .= html_writer::end_tag('ul');
         $html .= html_writer::end_tag('div');
@@ -63,11 +63,11 @@ class block_wp_block_base
         return $html;
     }
 
-    private static function getMenuItem(string $menuTitle, moodle_url $menuUrl, string $menuFaIconClass)
+    private static function getMenuItem(string $stringKey, moodle_url $menuUrl, string $menuFaIconClass, string $liClass)
     {
         $icon = html_writer::tag('i', '', ['class' => $menuFaIconClass, 'aria-hidden' => 'true']);
-        $label = html_writer::tag('small', $menuTitle);
-        $html = html_writer::start_tag('li', ['class' => 'nav-item ' . strtolower($menuTitle)]);
+        $label = html_writer::tag('small', get_string($stringKey, 'block_weplay'));
+        $html = html_writer::start_tag('li', ['class' => 'nav-item ' . $liClass]);
         $html .= html_writer::link($menuUrl, $icon . '<br>' . $label, ['class' => 'nav-link text-center']);
         $html .= html_writer::end_tag('li');
         return $html;
@@ -83,17 +83,20 @@ class block_wp_block_base
 
         $this->menuItems = [
             [
-                'title' => 'Avatar',
+                'class' => 'avatar',
+                'string_key' => 'avatar_menu_title',
                 'url' => $urlEditAvatar,
                 'faClass' => 'fa fa-user-circle-o',
             ],
             [
-                'title' => 'Board',
+                'class' => 'board',
+                'string_key' => 'leaderboard_menu_title',
                 'url' => $urlLeaderBoard,
                 'faClass' => 'fa fa-trophy',
             ],
             [
-                'title' => 'History',
+                'class' => 'history',
+                'string_key' => 'history_menu_title',
                 'url' => $urlHistory,
                 'faClass' => 'fa fa-history',
             ],

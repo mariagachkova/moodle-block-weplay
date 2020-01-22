@@ -84,7 +84,7 @@ $string['leaderboard_description'] = 'Това е крайната класац�
 
 //Menu labels
 $string['avatar_menu_title'] = 'Аватар';
-$string['leaderboard_menu_title'] = 'Дъска';
+$string['leaderboard_menu_title'] = 'Класация';
 $string['history_menu_title'] = 'История';
 $string['settings_menu_title'] = 'Настройки';
 
