@@ -59,7 +59,7 @@ class block_wp_block_base
         $html .= html_writer::start_tag('div', ['class' => 'progress mt-3']);
         $html .= html_writer::tag('div', '', ['class' => 'progress-bar', 'role' => 'progressbar', 'style' => 'width: ' . $this->progress_bar_percent . '%', 'aria-valuenow' => 25, 'aria-valuemin' => 0, 'aria-valuemax' => 100]);
         $html .= html_writer::end_tag('div');
-        $html .= html_writer::tag('div', html_writer::tag('p', 'You have achieved ' . $this->points . ' points'), ['class' => 'text-center']);
+        $html .= html_writer::tag('div', html_writer::tag('p', 'You have achieved ' . $this->points . ' points'), ['class' => 'text-center weplay-points']);
         return $html;
     }
 
