@@ -67,8 +67,8 @@ class block_wp_block_base
     {
         $icon = html_writer::tag('i', '', ['class' => $menuFaIconClass, 'aria-hidden' => 'true']);
         $label = html_writer::tag('small', $menuTitle);
-        $html = html_writer::start_tag('li', ['class' => 'nav-item']);
-        $html .= html_writer::link($menuUrl, $icon . $label, ['class' => 'nav-link text-center']);
+        $html = html_writer::start_tag('li', ['class' => 'nav-item ' . strtolower($menuTitle)]);
+        $html .= html_writer::link($menuUrl, $icon . '<br>' . $label, ['class' => 'nav-link text-center']);
         $html .= html_writer::end_tag('li');
         return $html;
     }
