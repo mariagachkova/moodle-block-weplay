@@ -237,7 +237,7 @@ class points_recorder
     function getIsPerformedSoon()
     {
         $date_time = new \DateTime();
-        $date_time->setTimestamp(time() - (10 * MINSECS));
+        $date_time->setTimestamp(time() - (3 * MINSECS));
         $performed_soon = $this->db->get_record_select('block_wp_log', 'eventname = :eventname AND userid = :userid AND courseid = :courseid AND time < :time',
             [
                 'courseid' => $this->event->userid,
