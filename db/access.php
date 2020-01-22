@@ -32,7 +32,7 @@ $capabilities = [
     // Whether or not a user can earn plugin point.
     'block/weplay:earnpoint' => array(
         'captype' => 'read',
-        'contextlevel' => CONTEXT_BLOCK,
+        'contextlevel' => CONTEXT_MODULE,
         'archetypes' => array(
             'student' => CAP_ALLOW
         ),

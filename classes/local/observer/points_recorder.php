@@ -83,7 +83,14 @@ class points_recorder
     public function log_event(base $event)
     {
         $this->setEvent($event);
-        $points = $this->calculate_points();
+        $excluded = (strlen(str_replace(static::EXCLUDED_EVENTS, '', $this->event->eventname)) !== strlen($this->event->eventname));
+        $is_performed_soon = $this->getIsPerformedSoon();
+
+//echo $is_performed_soon;
+        $points = 0;
+        if (!$is_performed_soon && !$excluded) {
+            $points = $this->calculate_points();
+        }
 
         if (is_int($points) && $points > 0) {
             $this->record_log($points);
@@ -97,29 +104,28 @@ class points_recorder
      */
     private function calculate_points()
     {
-        $excluded = strlen(str_replace(static::EXCLUDED_EVENTS, '', $this->event->eventname)) !== strlen($this->event->eventname);
-        $is_performed_soon = $this->getIsPerformedSoon();
+        $points = 0;
+        $blockrecord = $this->db->get_record('block_instances', ['blockname' => 'weplay', 'parentcontextid' => $this->event->courseid]);
+        $config_name = 'crud_' . $this->event->crud;
+        if ($blockrecord) {
+            $blockinstance = block_instance('weplay', $blockrecord);
 
-        if (!$excluded && !$is_performed_soon) {
-            $blockrecord = $this->db->get_record('block_instances', ['blockname' => 'weplay', 'parentcontextid' => $this->event->courseid]);
-            if ($blockrecord) {
-                $blockinstance = block_instance('weplay', $blockrecord);
-                $config_name = 'crud_' . $this->event->crud;
-
-                if (isset($blockinstance->config->$config_name) && is_int($blockinstance->config->$config_name)) {
-                    return $blockinstance->config->$config_name;
-                } elseif (isset(static::DEFAULT_POINTS[$config_name]) && is_int(static::DEFAULT_POINTS[$config_name])) {
-                    return static::DEFAULT_POINTS[$config_name];
-                }
+            if (isset($blockinstance->config->$config_name) && is_int($blockinstance->config->$config_name)) {
+                $points = $blockinstance->config->$config_name;
             }
         }
-        return 0;
+
+        if (!$points && isset(static::DEFAULT_POINTS[$config_name]) && is_int(static::DEFAULT_POINTS[$config_name])) {
+            return static::DEFAULT_POINTS[$config_name];
+        }
+        return $points;
     }
 
     /**
      * @param int $points
      */
-    private function record_log(int $points)
+    private
+    function record_log(int $points)
     {
         $logRecord = new \stdClass();
         $logRecord->userid = $this->event->userid;
@@ -137,7 +143,8 @@ class points_recorder
     /**
      * @param int $points
      */
-    private function record_level(int $points)
+    private
+    function record_level(int $points)
     {
         $levelRecord = $this->db->get_record('block_wp_level', ['userid' => $this->event->userid, 'courseid' => $this->event->courseid]);
         if (!$levelRecord) {
@@ -176,7 +183,8 @@ class points_recorder
      * @param $levelRecord
      * @return float
      */
-    private static function calculate_progress($levelRecord)
+    private
+    static function calculate_progress($levelRecord)
     {
         $proportion = 100;
         if (isset(static::DEFAULT_LEVEL_POINTS[($levelRecord->level + 1)])) {
@@ -200,7 +208,8 @@ class points_recorder
      *
      * @throws \Exception
      */
-    public function delete_older_logs()
+    public
+    function delete_older_logs()
     {
         if (isset($this->plugin_config->loglifetime) && $this->plugin_config->loglifetime) {
             $days = $this->plugin_config->loglifetime;
@@ -224,7 +233,8 @@ class points_recorder
      * @return bool
      * @throws \Exception
      */
-    private function getIsPerformedSoon()
+    private
+    function getIsPerformedSoon()
     {
         $date_time = new \DateTime();
         $date_time->setTimestamp(time() - (10 * MINSECS));
@@ -236,6 +246,6 @@ class points_recorder
                 'time' => $date_time->getTimestamp()
             ]);
 
-       return $this->event->crud == 'r' && $performed_soon;
+        return $this->event->crud == 'r' && $performed_soon;
     }
 }

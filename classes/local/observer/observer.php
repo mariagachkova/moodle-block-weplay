@@ -2,6 +2,7 @@
 
 namespace block_weplay\local\observer;
 
+use context_course;
 use core\event\base;
 use core\session\exception;
 
@@ -29,7 +30,7 @@ class observer
         } else if (!in_array($event->contextlevel, [CONTEXT_COURSE, CONTEXT_MODULE])) {
             // Ignore events that are not in the right context.
             return;
-        } else if (!$userid || isguestuser($userid) || is_siteadmin($userid)) {
+        } else if (!$userid || isguestuser($userid)/* || is_siteadmin($userid)*/) {
             // Skip non-logged in users and guests.
             return;
         } else if ($event->anonymous) {
@@ -44,7 +45,6 @@ class observer
 //            return;
 //        }
 
-
         try {
             // It has been reported that this can throw an exception when the context got missing
             // but is still cached within the event object. Or something like that...
@@ -53,7 +53,9 @@ class observer
             return;
         }
 
-        // Skip the events if the user does not have the capability to earn XP.
+        echo $canearn;
+
+        // Skip the events if the user does not have the capability to earn points.
         if (!$canearn) {
             return;
         }
