@@ -53,8 +53,6 @@ class observer
             return;
         }
 
-        echo $canearn;
-
         // Skip the events if the user does not have the capability to earn points.
         if (!$canearn) {
             return;
