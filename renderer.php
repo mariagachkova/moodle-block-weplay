@@ -266,13 +266,14 @@ class block_weplay_renderer extends plugin_renderer_base
      */
     private function leaderboard_avatar_info(string $participant_name, $avatar_description, bool $is_current_user)
     {
+        global $CFG;
         $icon = '';
         if ($avatar_description) {
             $icon = html_writer::tag('i', '', ['class' => 'fa fa-info-circle', 'aria-hidden' => true, 'title' => $avatar_description]);
         }
-        $name = $participant_name ? $participant_name . ' ' . $icon : get_string('leaderboard_unknown', 'block_weplay');
+        $name = $participant_name ? ($participant_name . ' ' . $icon) : get_string('leaderboard_unknown', 'block_weplay');
         $current = $is_current_user ? get_string('leaderboard_current', 'block_weplay') : '';
-        $html = html_writer::img('http://localhost/pluginfile.php/5/user/icon/boost/f1?rev=367', 'Image placeholder', ['class' => 'userpicture', 'style' => "width: 50px; height: 50px"]);
+        $html = html_writer::img($CFG->wwwroot . '/pluginfile.php/5/user/icon/boost/f1?rev=367', 'Image placeholder', ['class' => 'userpicture', 'style' => "width: 50px; height: 50px"]);
         $html .= $name . $current;
         return $html;
     }
