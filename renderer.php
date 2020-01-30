@@ -223,7 +223,7 @@ class block_weplay_renderer extends plugin_renderer_base
     {
         global $USER;
         $out = html_writer::start_tag('tbody');
-        $i = 0;
+        $i = 1;
         foreach ($levelRecords as $key => $levelRecord) {
             $title = $levelRecord->points . (isset(points_recorder::DEFAULT_LEVEL_POINTS[($levelRecord->level + 1)]) ? ' are earned from ' . points_recorder::DEFAULT_LEVEL_POINTS[($levelRecord->level + 1)] . ' needed to achieve the next level' : '');
             $icon = html_writer::tag('i', '', ['class' => 'fa fa-question-circle pull-right', 'aria-hidden' => true, 'title' => $title]);
