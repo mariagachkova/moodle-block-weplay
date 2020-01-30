@@ -223,6 +223,7 @@ class block_weplay_renderer extends plugin_renderer_base
     {
         global $USER;
         $out = html_writer::start_tag('tbody');
+        $i = 0;
         foreach ($levelRecords as $key => $levelRecord) {
             $title = $levelRecord->points . (isset(points_recorder::DEFAULT_LEVEL_POINTS[($levelRecord->level + 1)]) ? ' are earned from ' . points_recorder::DEFAULT_LEVEL_POINTS[($levelRecord->level + 1)] . ' needed to achieve the next level' : '');
             $icon = html_writer::tag('i', '', ['class' => 'fa fa-question-circle pull-right', 'aria-hidden' => true, 'title' => $title]);
@@ -230,7 +231,7 @@ class block_weplay_renderer extends plugin_renderer_base
             $is_current_user = $USER->id == $levelRecord->userid;
 
             $out .= html_writer::start_tag('tr', ['class' => ($is_current_user ? 'table-dark' : '')]);
-            $out .= html_writer::tag('th', $key++, ['scope' => 'row']);
+            $out .= html_writer::tag('th', $i++, ['scope' => 'row']);
             $out .= html_writer::tag('td', $this->leaderboard_avatar_info($participant_name, $levelRecord->avatar_description, $is_current_user));
             $out .= html_writer::tag('td', $this->leaderboard_level_info($levelRecord->level));
             $out .= html_writer::tag('td', $this->progress_bar($levelRecord->progress_bar_percent, $levelRecord->points));
