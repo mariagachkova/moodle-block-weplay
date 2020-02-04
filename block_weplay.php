@@ -27,6 +27,12 @@ class block_weplay extends block_base
             return $this->content;
         }
 
+//        if ($this->page) {
+//            $js_url = new moodle_url('/weplay/scripts/lib.js');
+//            $this->page->requires->js($js_url);
+//        }
+
+
         $content = new block_wp_block_base();
 
         $this->content = new stdClass;

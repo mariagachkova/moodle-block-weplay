@@ -19,6 +19,9 @@ class block_wp_block_base
     /* @var int $points Stores current user progress bar percent */
     protected $progress_bar_percent = 0;
 
+    protected $userid;
+    protected $courseid;
+
     public function __construct()
     {
         $this->setMenuItems();
@@ -43,6 +46,13 @@ class block_wp_block_base
         foreach ($this->menuItems as $item) {
             $html .= self::getMenuItem($item['string_key'], $item['url'], $item['faClass'], $item['class']);
         }
+
+        $icon = html_writer::tag('i', '', ['class' => 'fa fa-refresh', 'aria-hidden' => 'true']);
+        $label = html_writer::tag('small', 'Refresh');
+        $html .= html_writer::start_tag('li', ['class' => 'nav-item refresh_icon', 'data-userid' => $this->userid, 'data-courseid' => $this->courseid]);
+        $html .= $icon . '<br>' . $label;
+        $html .= html_writer::end_tag('li');
+
         $html .= html_writer::end_tag('ul');
         $html .= html_writer::end_tag('div');
 
@@ -59,7 +69,7 @@ class block_wp_block_base
         $html .= html_writer::start_tag('div', ['class' => 'progress mt-3']);
         $html .= html_writer::tag('div', '', ['class' => 'progress-bar', 'role' => 'progressbar', 'style' => 'width: ' . $this->progress_bar_percent . '%', 'aria-valuenow' => 25, 'aria-valuemin' => 0, 'aria-valuemax' => 100]);
         $html .= html_writer::end_tag('div');
-        $html .= html_writer::tag('div', html_writer::tag('p', 'You have achieved ' . $this->points . ' points'), ['class' => 'text-center weplay-points']);
+        $html .= html_writer::tag('div', html_writer::tag('p', 'You have achieved <b class="points">' . $this->points . '</b> points'), ['class' => 'text-center weplay-points']);
         return $html;
     }
 
@@ -100,11 +110,6 @@ class block_wp_block_base
                 'url' => $urlHistory,
                 'faClass' => 'fa fa-history',
             ],
-//            [
-//                'title' => 'Setting',
-//                'url' => new moodle_url('/user/view.php', ['id' => 3, 'course' => 5]),
-//                'faClass' => 'fa fa-cog',
-//            ],
         ];
     }
 
@@ -117,5 +122,7 @@ class block_wp_block_base
             $this->points = $levelInfo->points;
             $this->progress_bar_percent = $levelInfo->progress_bar_percent;
         }
+        $this->userid = $USER->id;
+        $this->courseid = $COURSE->id;
     }
 }
