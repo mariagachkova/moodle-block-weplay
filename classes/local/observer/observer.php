@@ -20,7 +20,6 @@ class observer
      */
     public static function catch_all(\core\event\base $event)
     {
-        $points_recorder = new points_recorder();
 
         $userid = $event->userid;
 
@@ -30,7 +29,7 @@ class observer
         } else if (!in_array($event->contextlevel, [CONTEXT_COURSE, CONTEXT_MODULE])) {
             // Ignore events that are not in the right context.
             return;
-        } else if (!$userid || isguestuser($userid)/* || is_siteadmin($userid)*/) {
+        } else if (!$userid || isguestuser($userid) || is_siteadmin($userid)) {
             // Skip non-logged in users and guests.
             return;
         } else if ($event->anonymous) {
@@ -39,15 +38,14 @@ class observer
         } else if (!$event->get_context()) {
             // For some reason the context does not exist...
             return;
+        } else if ($event->component === 'block_weplay') {
+            // Skip own events.
+            return;
         }
-//        else if ($event->component === 'block_weplay') {
-//            // Skip own events.
-//            return;
-//        }
 
         try {
             // It has been reported that this can throw an exception when the context got missing
-            // but is still cached within the event object. Or something like that...
+            // but is still cached within the event object.
             $canearn = has_capability('block/weplay:earnpoint', $event->get_context(), $userid);
         } catch (\moodle_exception $e) {
             return;
@@ -58,6 +56,7 @@ class observer
             return;
         }
 
+        $points_recorder = new points_recorder();
         $points_recorder->log_event($event);
     }
 

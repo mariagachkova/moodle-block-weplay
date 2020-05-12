@@ -39,7 +39,7 @@ if ($view && $avatar) {
     $avatarform = new wp_avatar_form($PAGE->url->out(false), ['persistent' => $avatar]);
 
     if ($avatarform->is_cancelled()) {
-        // Cancelled forms redirect to the course main page.
+        // Cancelled forms redirect to the avatar main page.
         $courseurl = new moodle_url('/course/avatar.php', array('courseid' => $courseid));
         redirect($courseurl);
     } else if (($data = $avatarform->get_data())) { // Get the data. This ensures that the form was validated.

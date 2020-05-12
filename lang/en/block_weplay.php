@@ -83,9 +83,9 @@ $string['leaderboard_title'] = 'Leader board';
 $string['leaderboard_description'] = 'This is a final rating for current course';
 
 //Menu labels
-$string['avatar_menu_title'] = 'Avatar';
+$string['avatar_menu_title'] = 'Status';
 $string['leaderboard_menu_title'] = 'Board';
-$string['history_menu_title'] = 'History';
+$string['history_menu_title'] = 'Rewards';
 $string['settings_menu_title'] = 'Settings';
 
 //global configuration strings

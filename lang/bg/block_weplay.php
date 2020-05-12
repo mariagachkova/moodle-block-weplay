@@ -69,13 +69,13 @@ $string['avatar_image_icon'] = 'Помощ със снимката на ават
 $string['avatar_image_icon_help'] = 'Добавете снимка към аватара за конкретния курс';
 
 //Avatar card user reports
-$string['report'] = 'Репорти';
-$string['report_info'] = 'Тук можете да прегледате някои от репортите за Вашия профил';
+$string['report'] = 'Отчети';
+$string['report_info'] = 'Тук можете да прегледате някои от отчетите за Вашия профил';
 
-$string['today_logs'] = 'Логове от днес';
-$string['all_logs'] = 'Всички логове';
-$string['grade'] = 'Оценяване';
-$string['grade_overview'] = 'Общ преглед на оценяването';
+$string['today_logs'] = 'Журнали от днес';
+$string['all_logs'] = 'Всички журнали';
+$string['grade'] = 'Оценка';
+$string['grade_overview'] = 'Преглед на оценките';
 
 $string['avatarformtitleedit'] = 'Промяна на информацията за аватара';
 
@@ -83,9 +83,9 @@ $string['leaderboard_title'] = 'Класация';
 $string['leaderboard_description'] = 'Това е крайната класация за настоящия курс';
 
 //Menu labels
-$string['avatar_menu_title'] = 'Аватар';
+$string['avatar_menu_title'] = 'Статус';
 $string['leaderboard_menu_title'] = 'Класация';
-$string['history_menu_title'] = 'История';
+$string['history_menu_title'] = 'Награди';
 $string['settings_menu_title'] = 'Настройки';
 
 //global configuration strings

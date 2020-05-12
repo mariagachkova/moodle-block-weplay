@@ -58,6 +58,11 @@ class points_recorder
         'assessable_uploaded',
     ];
 
+    /**
+     * Period in minutes that the same event could not be performed by the same user
+     */
+    const PERIOD_MIN_TRICK_GUARD = 3;
+
     public function __construct()
     {
         $this->setDB();
@@ -183,10 +188,10 @@ class points_recorder
      * @param $levelRecord
      * @return float
      */
-    private
-    static function calculate_progress($levelRecord)
+    private static function calculate_progress($levelRecord)
     {
         $proportion = 100;
+        //Check if there is next level
         if (isset(static::DEFAULT_LEVEL_POINTS[($levelRecord->level + 1)])) {
             //get total points that should be earned to get from current level to next one
             $totalPointsToEarn = static::DEFAULT_LEVEL_POINTS[($levelRecord->level + 1)] - static::DEFAULT_LEVEL_POINTS[$levelRecord->level];
@@ -229,7 +234,7 @@ class points_recorder
     }
 
     /**
-     * Check if the same event with crud R is performed last 10 minutes and ignore it
+     * Check if the same event with crud R is performed last X minutes and ignore it
      * @return bool
      * @throws \Exception
      */
@@ -237,7 +242,7 @@ class points_recorder
     function getIsPerformedSoon()
     {
         $date_time = new \DateTime();
-        $date_time->setTimestamp(time() - (3 * MINSECS));
+        $date_time->setTimestamp(time() - (static::PERIOD_MIN_TRICK_GUARD * MINSECS));
         $performed_soon = $this->db->get_record_select('block_wp_log', 'eventname = :eventname AND userid = :userid AND courseid = :courseid AND time > :time',
             [
                 'courseid' => $this->event->courseid,

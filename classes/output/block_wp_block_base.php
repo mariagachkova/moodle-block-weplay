@@ -100,11 +100,6 @@ class block_wp_block_base
                 'url' => $urlHistory,
                 'faClass' => 'fa fa-history',
             ],
-//            [
-//                'title' => 'Setting',
-//                'url' => new moodle_url('/user/view.php', ['id' => 3, 'course' => 5]),
-//                'faClass' => 'fa fa-cog',
-//            ],
         ];
     }
 
